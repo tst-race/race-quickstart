@@ -131,3 +131,39 @@ deployment start
 
 Carma has a notion of a "batch" of messages that are processed simultaneously to mitigate using timing-analyses to deanonymize messaging. Therefore, you will need to send multiple messages (generally at least 4) before the system will route them. This if you send a single message, it may never arrive until you send more, but it _is_ being stored in the server overlay awaiting more messages to be mixed with, so it will not be lost.
 
+## Really Covert Network
+Up to this point we have been using stand-in channels for communications between nodes. Specifically, servers have been using a simple TCP socket to talk to each other, and clients and servers have been posting data to each other via a redis intermediary. In both cases, the messages have just been raw encrypted bytes and presumably easy to filter or block. Now we add in covert channels to make it impossible to detect or block the RACE system's network traffic. 
+
+
+### Carma with Obfs and ssEmail
+
+This deployment is the same as the Carma deployment above, but now we have added arguments to include Obfs and ssEmail for communications. Carma chooses how and where to use these channels - in this case it will use Obfs for server-to-server traffic since it is high-bandwidth and low-latency, but requires revealing the IP address of the other endpoint.
+
+Carma will use ssEmail for client-server traffic: ssEmail transmits data by encoding it into the semantic space of an image (i.e. it generates wholly new images, rather than altering existing ones) and then attaching the image to an email sent to another node. This prevents either node from learning the IP address of the other, they just know one another's email addresses. In addition to additional processing time to encode and decode images, the ssEmail channel also limits the rate at which emails are sent to avoid standing out. In short, the messages will take longer to be received but the whole system will be stealthy.
+
+```
+rib deployment local create --name=carma-ta2s \
+    --linux-client-count=4 \
+    --linux-server-count=20 \
+    --race-node-arch=x86_64 \
+    --android-client-count=1 \
+    --android-client-bridge-count=1 \
+    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-1 \
+    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
+    --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-beta-1/ \
+    --comms-channel=obfs --comms-kit=tag=2.6.0-beta-1,repo=race-obfs,org=tst-race \
+    --comms-channel=ssEmail --comms-kit=tag=2.6.0-beta-1,repo=race-semanticsteg,org=tst-race
+    
+rib-use local carma
+deployment up
+
+# Optional commands if you are using a physical android client
+deployment bridged android prepare --persona=race-client-00005
+deployment bridged android connect
+# End optional commands
+
+deployment start
+```
