@@ -261,5 +261,5 @@ docker network rm rib-overlay-network
 When the entrypoint script (`rib_2.6.0.sh`) is run, a directory is created for storing RACE plugin code and deployments. By default this is created at ~/.race, unless the `--rib_state_path` argument is passed to set a different location. Removing this directory will remove all RACE content aside from the docker images previously removed.
 
 ```
-docker rm -rf ~/.race
+rm -rf ~/.race
 ```
