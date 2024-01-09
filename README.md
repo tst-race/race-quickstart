@@ -33,7 +33,7 @@ rib deployment local create --name=basic \
     --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
-    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-1 \
+    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-2 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
@@ -69,7 +69,20 @@ You can view the status of message that have been sent by running:
 deployment message list
 ```
 
+_Note_: there is a "test-id" that is prepended to messages sent via these commands to assist in performance testing. This will show up in the Android client as "default" prepended to messages (e.g. sending the above --message="Hello!" will result in "default Hello!" appearing in the app UI).
+
 You can change the sender and recipient, or leave either blank to cause messages to be sent _from_ all nodes (if sender is omitted) or _to_ all nodes (if receiver is omitted).
+
+When you are done testing with a deployment, you should _stop_, (_disconnect_ and then _unprepare_ if you are using a bridged Android device) then _down_.
+
+```
+deployment stop
+
+deployment bridged android disconnect
+deployment bridged android unprepare
+
+deployment down
+```
 
 ## Really Anonymous Messaging
 There are two different implementations of anonymous message routing across a resilient overlay network: PRISM and CARMA. We can easily run either of these instead of the stand-in used above by creating a new deployment and providing a _--network-manager-kit__ argument (last argument in the command below).
@@ -82,7 +95,7 @@ rib deployment local create --name=prism \
     --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
-    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-1 \
+    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-2 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
@@ -102,6 +115,17 @@ deployment start
 
 Prism has adaptive organization capability which means its node need a few moments to "get organized" after it is started before messages will be able to be routed.
 
+When you are done testing, use the following commands to end the deployment.
+
+```
+deployment stop
+
+deployment bridged android disconnect
+deployment bridged android unprepare
+
+deployment down
+```
+
 ### CARMA
 
 ```
@@ -111,7 +135,7 @@ rib deployment local create --name=carma \
     --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
-    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-1 \
+    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-2 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
@@ -131,6 +155,18 @@ deployment start
 
 Carma has a notion of a "batch" of messages that are processed simultaneously to mitigate using timing-analyses to deanonymize messaging. Therefore, you will need to send multiple messages (generally at least 4) before the system will route them. This if you send a single message, it may never arrive until you send more, but it _is_ being stored in the server overlay awaiting more messages to be mixed with, so it will not be lost.
 
+
+When you are done testing, use the following commands to end the deployment.
+
+```
+deployment stop
+
+deployment bridged android disconnect
+deployment bridged android unprepare
+
+deployment down
+```
+
 ## Really Covert Network
 Up to this point we have been using stand-in channels for communications between nodes. Specifically, servers have been using a simple TCP socket to talk to each other, and clients and servers have been posting data to each other via a redis intermediary. In both cases, the messages have just been raw encrypted bytes and presumably easy to filter or block. Now we add in covert channels to make it impossible to detect or block the RACE system's network traffic. 
 
@@ -148,7 +184,7 @@ rib deployment local create --name=carma-ta2s \
     --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
-    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-1 \
+    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-2 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
@@ -166,4 +202,64 @@ deployment bridged android connect
 # End optional commands
 
 deployment start
+```
+
+
+
+## Removing RACE/RiB
+This sequence of steps should remove everything you may have just pulled and installed as part of this quickstart. 
+
+### Down Deployments
+To check if you still have a deployment running, run:
+```
+rib deployment local active
+```
+This will output the name of an active deployment; if there is one, then run:
+```
+deployment local stop --name=<NAME> --force
+deployment local down --name=<NAME> --force
+```
+
+You can verify it has been brought down by running the active command again.
+
+
+### Android Device
+If you did not use an Android device you can skip this.
+
+Plug the device into the RiB host so ADB can detect it, then run:
+```
+deployment local bridged android unprepare --name=<NAME>
+```
+_Note_: <NAME> can be the name of any existing deployment
+
+### Remove Docker Images
+Exit the RiB container, then run the following to delete all RACE-related images:
+
+This command finds and deletes all images from _tst-race_, the Github organization hosting the RACE code.
+```
+docker rmi $(docker images | grep tst-race | tr -s [:space:] | cut -d' ' -f3)
+```
+
+Additionally, RiB and RACE uses a set of third-party docker images that you _may_ have already had installed for other reasons. If you want to remove these as well, do:
+```
+docker rmi defreitas/dns-proxy-server:latest
+docker rmi jaegertracing/jaeger-query:1.34.1
+docker rmi jaegertracing/jaeger-collector:1.34.1
+docker rmi docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+docker rmi docker.elastic.co/kibana/kibana:7.16.1
+docker rmi ixdotai/openvpn:0.2.3
+docker rmi instrumentisto/coturn:latest
+docker rmi redis:6.0.6
+```
+
+Lastly, RiB creates a network for all the containers to connect to, this can be removed with:
+```
+docker network rm rib-overlay-network
+```
+
+### Remove RiB Files
+When the entrypoint script (`rib_2.6.0.sh`) is run, a directory is created for storing RACE plugin code and deployments. By default this is created at ~/.race, unless the `--rib_state_path` argument is passed to set a different location. Removing this directory will remove all RACE content aside from the docker images previously removed.
+
+```
+docker rm -rf ~/.race
 ```
