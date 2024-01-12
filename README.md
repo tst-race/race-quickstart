@@ -315,7 +315,7 @@ This quick start guide got you up and running with core RACE system, both anonym
 - [What is RACE: the longer story]()
 - [Full list of RACE Comms Plugins]()
 - [Bootstrapping: how do new clients join?](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/node-bootstrap-test.md)
-- [Developer Documentation]()
+- [Developer Documentation](https://github.com/tst-race/race-docs/blob/main/RACE%20developer%20guide.md)
 
 
 ## Clean Up: Removing RACE/RiB
