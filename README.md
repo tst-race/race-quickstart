@@ -8,8 +8,22 @@
 - *Note* there will be more explanatory text around the following sections
 ```
 
+<!-- toc -->
+
+- [What is RACE?](#what-is-race)
+- [What is this Guide?](#what-is-this-guide)
+- [Environment Setup](#environment-setup)
+- [First Deployment](#first-deployment)
+- [Really Anonymous Messaging](#really-anonymous-messaging)
+- [Really Resilient Networking](#really-resilient-networking)
+- [Exploring Your Deployment](#exploring-your-deployment)
+- [Exploring More of RACE](#exploring-more-of-race)
+- [Clean Up: Removing RACE/RiB](#clean-up-removing-racerib)
+
+<!-- tocstop -->
 
 Welcome to the quickstart guide for trying out the Resilient Anonymous Communications for Everyone (RACE) project software!
+
 
 ## What is RACE?
 RACE is an open source project aimed at developing technologies to provide metadata-anonymous, secure, and resilient messaging for users around the world. RACE provides anonymity by routing messages through an overlay network of volunteer servers using cryptographic algorithms that prevent a malicious subset of these servers from determining who is messaging whom. RACE uses specialized networking protocols to prevent connections between individual members of the network from being detected or blocked. RACE is built to run in a dockerized linux environment and on Android devices.
