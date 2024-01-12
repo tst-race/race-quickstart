@@ -159,7 +159,7 @@ rib deployment local create --name=prism \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
-    --network-manager-kit=tag=2.6.0-beta-1,org=tst-race,repo=race-prism
+    --network-manager-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-prism
 
 rib-use local prism
 deployment up
