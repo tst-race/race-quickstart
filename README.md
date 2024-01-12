@@ -1,4 +1,5 @@
 # RACE Quickstart (WIP)
+Welcome to the quickstart guide for trying out the Resilient Anonymous Communications for Everyone (RACE) project software!
 
 ```
 ## Pre-Release Preliminaries
@@ -22,7 +23,6 @@
 
 <!-- tocstop -->
 
-Welcome to the quickstart guide for trying out the Resilient Anonymous Communications for Everyone (RACE) project software!
 
 
 ## What is RACE?
