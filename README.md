@@ -43,7 +43,7 @@ bash rib_2.6.0.sh --version=2.6.0-beta-1 --ui
 
 That command pulled and ran a docker image to give you an interactive commandline prompt for the RIB test environment. All the commands below are expected to be run on that prompt inside the RIB container.
 
-___Special pre-release steps:___
+___Special pre-release steps:
 ```
 rib github config --access-token=<TOKEN from above> --username=race@twosixtech.com
 rib docker login
@@ -249,6 +249,48 @@ rib deployment local create --name=carma-obfs-ssEmail \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
+    --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-beta-1/ \
+    --comms-channel=obfs --comms-kit=tag=2.6.0-beta-1,repo=race-obfs,org=tst-race \
+    --comms-channel=ssEmail --comms-kit=tag=2.6.0-beta-1,repo=race-semanticsteg,org=tst-race
+    
+rib-use local carma-obfs-ssEmail
+deployment up
+
+# Optional commands if you are using a physical android client
+deployment bridged android prepare --persona=race-client-00005
+deployment bridged android connect
+# End optional commands
+
+deployment start
+```
+
+When you are done testing, use the following commands to end the deployment.
+
+```
+deployment stop
+
+deployment bridged android disconnect
+deployment bridged android unprepare
+
+deployment down
+```
+
+### Prism with Snowflake, destiniPixelfed, and ssEmail
+
+This deployment is the same as the Prism deployment above, but now using [Snowflake](), [ssEmail](), and [destiniPixelfed]() for communications. We will demonstrate the use of some Prism-specific configuration arguments to tell it _how_ we think it should use these channels. In particular, ssEmail and destiniPixelfed are two different _indirect_ channels, meaning they use a third-party service as an intermediary for sending messages. ssEmail is described above; destiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
+
+```
+rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
+    --linux-client-count=4 \
+    --linux-server-count=10 \
+    --race-node-arch=x86_64 \
+    --android-client-count=1 \
+    --android-client-bridge-count=1 \
+    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-beta-2 \
+    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
     --network-manager-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-prism \
     --comms-channel=snowflake --comms-kit=tag=2.6.0-beta-1,org=tst-race,repo=race-snowflake \
     --comms-channel=ssEmail --comms-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-semanticsteg \
@@ -275,6 +317,16 @@ deployment start
 
 ___Note:___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so give it a few minutes before expecting messages to get through.
 
+When you are done testing, use the following commands to end the deployment.
+
+```
+deployment stop
+
+deployment bridged android disconnect
+deployment bridged android unprepare
+
+deployment down
+```
 
 ## Exploring Your Deployment
 
