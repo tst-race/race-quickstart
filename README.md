@@ -241,10 +241,13 @@ deployment message list
 #### Network Visualization
 RIB also have a rudimentary network visualization capability. First run:
 ```
-/race_in_the_box/scripts/voa/inspect_links.py
+/race_in_the_box/scripts/voa/inspect_links.py | wc -l
 ```
 
-This pulls data about the current network connectivity graph and processes it into a graph structure that is pushed to a simple graph visualization server. Browse to [http://localhost:6080] and a force-directed view of the graph is shown.
+
+This pulls data about the current network connectivity graph and processes it into a graph structure that is pushed to a simple graph visualization server. Browse to [http://localhost:6080]([http://localhost:6080]) and a force-directed view of the graph is shown.
+
+![An image of a force-directed graph](https://github.com/tst-race/race-quickstart/blob/local-wip/network-vis-1.png?raw=true)
 
 You can also visualize the paths involved in sending a specific message by running:
 ```
@@ -268,9 +271,14 @@ You can also visualize the paths involved in sending a specific message by runni
 
 Navigate to one of the "Force URL" links to see a visualization of the network, with links highlighted that were used in transmission of this particular message.
 
+![An image of a force-directed graph with certain edges highlighted to show the path a message took](https://github.com/tst-race/race-quickstart/blob/local-wip/network-vis-2.png?raw=true)
+
 
 #### Jaeger Tracing Visualization
 Additionally, RACE messages are instrumented via OpenTracing for testing purposes. Using the output of the `pollmsg.py` command, above, you can one of the "Jaeger URL" links to see the distinct hops of the message through the series of nodes in the path. Within Jaeger, you can also see all the traces that each node is involved in, which can include events beyond just routing client messages.
+
+![An image of a jaeger UI showing a list of API calls associated with sending a message](https://github.com/tst-race/race-quickstart/blob/local-wip/jaeger-ui-1.png?raw=true)
+
 
 ### Stopping the Deployment
 When you are done testing with a deployment, you should _stop_, (_disconnect_ and then _unprepare_ if you are using a bridged Android device) then _down_.
@@ -1189,7 +1197,90 @@ Tore Down Deployment: prism-snowflake-destiniPixelfed-ssEmail
 </details>
 
 ## Exploring Your Deployment
+There are a few different ways to quickly examine what's going on while a RACE deployment is running.
 
+### RIB Deployment Status
+The `deployment status` command will display varying levels of detail, depending on the number of `-d` arguments (e.g. `-dd`), about the status of RACE nodes and other deployment infrastructure containers. This is good for checking for gross errors with the deployment, like a container crashing.
+
+<details><summary>Example Output</summary>
+
+```
+5738) rib:development:local:basic@code# deployment status -dd
+Deployment basic apps: all running
+Counts:
+	0/11 are down
+	0/11 are error
+	0/11 are initializing
+	0/11 are ready to bootstrap
+	0/11 are ready to generate config
+	0/11 are ready to install configs
+	0/11 are ready to publish configs
+	0/11 are ready to start
+	0/11 are ready to tar configs
+	11/11 are running
+	0/11 are stopped
+	0/11 are unknown
+Details:
+	race-client-00001: running
+	race-client-00002: running
+	race-client-00003: running
+	race-client-00004: running
+	race-client-00005: running
+	race-server-00001: running
+	race-server-00002: running
+	race-server-00003: running
+	race-server-00004: running
+	race-server-00005: running
+	race-server-00006: running
+Deployment basic containers: all running
+Counts:
+	0/19 are exited
+	0/19 are not present
+	19/19 are running
+	0/19 are starting
+	0/19 are unhealthy
+	0/19 are unknown
+Details:
+	dnsproxy: running
+	elasticsearch: running
+	graph renderer: running
+	jaeger-collector: running
+	jaeger-query: running
+	kibana: running
+	openvpn: running
+	race-client-00001: running
+	race-client-00002: running
+	race-client-00003: running
+	race-client-00004: running
+	race-server-00001: running
+	race-server-00002: running
+	race-server-00003: running
+	race-server-00004: running
+	race-server-00005: running
+	race-server-00006: running
+	rib-file-server: running
+	rib-redis: running
+Deployment basic services: all running
+Counts:
+	0/8 are error
+	0/8 are not running
+	8/8 are running
+	0/8 are unknown
+Details:
+	External Services: all running
+	RiB: all running
+```
+
+</details>
+
+### Jaegertracing
+As described [above](#jaeger-tracing-visualization), navigating to [http://localhost:16686/](http://localhost:16686/) provides the Jaeger UI for examining OpenTracing data. This allows you to look at different API events occurring on different nodes, can be particularly useful for seeing "breaks" in a distributed event, like a message which reaches a node, claims to be _sent_, but then is never _received_.
+
+### Network Visualization
+Also described [above](#network-visualization), running the  `/race_in_the_box/scripts/voa/inspect_links.py | wc -l` command and viewing the rendered visualization at [http://localhost:6080]([http://localhost:6080]) can provide information about which nodes are connected to one another and about the overall network state in terms of connectivity.
+
+### Logs
+The most detailed but very low-level way to look at a deployment is looking at the log files for the RACE nodes. For linux nodes, these are all volume-mounted into the node containers, and can be viewed at `~/.race/rib/deployments/local/<deployment name>/logs/<node-name>/`. These are very verbose and more appropriate for developer use, see [Developer Documentation](https://github.com/tst-race/race-docs/blob/main/RACE%20developer%20guide.md).
 
 ## Exploring More of RACE
 This quick start guide got you up and running with core RACE system, both anonymous routing network-manager plugins, and a subset of the comms plugins that provide resilience at the network-layer. From here you can explore a number of different aspects of RACE in more depth:
