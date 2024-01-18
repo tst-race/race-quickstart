@@ -174,7 +174,7 @@ Connected Android device <YOUR DEVICE SERIAL ID>801KPDT1502330
 
 </details>
 
-___Note:___ If you are having problems, with the _connect_ step failing or hanging forever, it is very likely a network issue. We suggest continuing without the Android client for now, and digging further later using our [Android bridged deployment troubleshooting tips]().
+___Note:___ If you are having problems, with the _connect_ step failing or hanging forever, it is very likely a network issue. We suggest continuing without the Android client for now, and digging further later using our [Android bridged deployment troubleshooting tips](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/deployment-setup/android-bridged.md).
 
 
 
@@ -438,7 +438,7 @@ Started All Nodes In Deployment: prism (local)
 
 </details>
 
-[Prism]() has adaptive organization capability which means its node need a few moments to "get organized" after it is started before messages will be able to be routed.
+[Prism](https://github.com/tst-race/race-prism) has adaptive organization capability which means its node need a few moments to "get organized" after it is started before messages will be able to be routed.
 
 When you are done testing, use the following commands to end the deployment.
 
@@ -612,7 +612,7 @@ Started All Nodes In Deployment: carma (local)
 
 </details>
 
-___Note:___[Carma]() has a notion of a "batch" of messages that are processed simultaneously to mitigate using timing-analyses to deanonymize messaging. Therefore, you will need to send multiple messages ___(generally at least 4)___ before the system will route them. Thus, if you send a single message it may never arrive until you send more, but it _is_ being stored in the server overlay awaiting more messages to be mixed with, so it will not be lost.
+___Note:___ [Carma](https://github.com/tst-race/race-carma) has a notion of a "batch" of messages that are processed simultaneously to mitigate using timing-analyses to deanonymize messaging. Therefore, you will need to send multiple messages ___(generally at least 4)___ before the system will route them. Thus, if you send a single message it may never arrive until you send more, but it _is_ being stored in the server overlay awaiting more messages to be mixed with, so it will not be lost.
 
 
 When you are done testing, use the following commands to end the deployment.
@@ -667,7 +667,7 @@ Up to this point we have been using stand-in channels for communications between
 
 ### Carma with Obfs and ssEmail
 
-This deployment is the same as the Carma deployment above, but now we have added arguments to include [Obfs]() and [ssEmail]() for communications. Carma chooses how and where to use these channels - in this case it will use Obfs for server-to-server traffic since it is high-bandwidth and low-latency, but requires revealing the IP address of the other endpoint.
+This deployment is the same as the Carma deployment above, but now we have added arguments to include [Obfs](https://github.com/tst-race/race-obfs) and [ssEmail](https://github.com/tst-race/race-semanticsteg) for communications. Carma chooses how and where to use these channels - in this case it will use Obfs for server-to-server traffic since it is high-bandwidth and low-latency, but requires revealing the IP address of the other endpoint.
 
 Carma will use ssEmail for client-server traffic: ssEmail transmits data by encoding it into the semantic space of an image (i.e. it generates wholly new images, rather than altering existing ones) and then attaching the image to an email sent to another node. This prevents either node from learning the IP address of the other, they just know one another's email addresses. In addition to additional processing time to encode and decode images, the ssEmail channel also limits the rate at which emails are sent to avoid standing out. In short, the messages will take longer to be received but the whole system will be stealthy.
 
@@ -928,7 +928,7 @@ Tore Down Deployment: carma-obfs-ssEmail
 
 ### Prism with Snowflake, destiniPixelfed, and ssEmail
 
-This deployment is the same as the Prism deployment above, but now using [Snowflake](), [ssEmail](), and [destiniPixelfed]() for communications. We will demonstrate the use of some Prism-specific configuration arguments to tell it _how_ we think it should use these channels. In particular, ssEmail and destiniPixelfed are two different _indirect_ channels, meaning they use a third-party service as an intermediary for sending messages. ssEmail is described above; destiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
+This deployment is the same as the Prism deployment above, but now using [Snowflake](https://github.com/tst-race/race-snowflake), [ssEmail](https://github.com/tst-race/race-semanticsteg), and [destiniPixelfed](https://github.com/tst-race/race-destini) for communications. We will demonstrate the use of some Prism-specific configuration arguments to tell it _how_ we think it should use these channels. In particular, ssEmail and destiniPixelfed are two different _indirect_ channels, meaning they use a third-party service as an intermediary for sending messages. ssEmail is described above; destiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
 
 ```
 rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
@@ -1198,6 +1198,7 @@ This quick start guide got you up and running with core RACE system, both anonym
 - [Full list of RACE Channels](https://github.com/tst-race/race-docs/blob/main/race-channels.md)
 - [Bootstrapping: how do new clients join?](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/node-bootstrap-test.md)
 - [Developer Documentation](https://github.com/tst-race/race-docs/blob/main/RACE%20developer%20guide.md)
+- [RIB Documentation](https://github.com/tst-race/race-in-the-box/tree/2.6.0/documentation)
 
 
 ## Clean Up: Removing RACE/RiB
