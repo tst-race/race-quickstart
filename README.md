@@ -1208,13 +1208,33 @@ To check if you still have a deployment running, run:
 ```
 rib deployment local active
 ```
+
+<details><summary>Example Output</summary>
+
+```
+1955) rib:development@code# rib deployment local active
+Getting Active Deployments
+<NAME>
+```
+
+</details>
+
 This will output the name of an active deployment; if there is one, then run:
+
+
 ```
 deployment local stop --name=<NAME> --force
 deployment local down --name=<NAME> --force
 ```
 
 You can verify it has been brought down by running the active command again.
+<details><summary>Example Output</summary>
+
+```
+1955) rib:development@code# rib deployment local active
+Getting Active Deployments
+None
+```
 
 
 ### Android Device
@@ -1224,6 +1244,15 @@ Plug the device into the RiB host so ADB can detect it, then run:
 ```
 deployment local bridged android unprepare --name=<NAME>
 ```
+
+<details><summary>Example Output</summary>
+
+```
+1955) rib:development@code# deployment local bridged android unprepare --name=<NAME>
+Unpreparing Android device <YOUR DEVICE SERIAL ID>
+Unprepared Android device <YOUR DEVICE SERIAL ID>
+```
+
 ___Note:___ <NAME> can be the name of any existing deployment (e.g. `basic`)
 
 ### Remove Docker Images
@@ -1255,5 +1284,5 @@ docker network rm rib-overlay-network
 When the entrypoint script (`rib_2.6.0.sh`) is run, a directory is created for storing RACE plugin code and deployments. By default this is created at ~/.race, unless the `--rib_state_path` argument is passed to set a different location. Removing this directory will remove all RACE content aside from the docker images previously removed.
 
 ```
-rm -rf ~/.race
+sudo rm -rf ~/.race
 ```
