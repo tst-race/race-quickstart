@@ -622,6 +622,8 @@ Started All Nodes In Deployment: carma (local)
 
 ___Note:___ [Carma](https://github.com/tst-race/race-carma) has a notion of a "batch" of messages that are processed simultaneously to mitigate using timing-analyses to deanonymize messaging. Therefore, you will need to send multiple messages ___(generally at least 4)___ before the system will route them. Thus, if you send a single message it may never arrive until you send more, but it _is_ being stored in the server overlay awaiting more messages to be mixed with, so it will not be lost.
 
+___Note 2:___ Carma actually breaks the OpenTracing-based visualization of message tracking used in the Jaeger UI and the force-directed graph renderings. Therefore, despite being delivered, messages will appear to only make it "halfway" through the Carma routing procedure: from sender, to "ingress mailbox" server, to "mixing committee" and then appear to stop. The latter half of the message's transit is essentially the reverse: it moves _from_ mixing committees, to "receiving mailbox" servers, and then to the ultimate destination client.
+
 
 When you are done testing, use the following commands to end the deployment.
 
