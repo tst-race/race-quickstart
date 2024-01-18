@@ -271,7 +271,7 @@ You can also visualize the paths involved in sending a specific message by runni
 
 Navigate to one of the "Force URL" links to see a visualization of the network, with links highlighted that were used in transmission of this particular message.
 
-![An image of a force-directed graph with certain edges highlighted to show the path a message took](https://github.com/tst-race/race-quickstart/blob/local-wip/network-vis-2.png?raw=true)
+![An image of a force-directed graph with certain edges highlighted to show the path a message took](https://github.com/tst-race/race-quickstart/blob/local-wip/trace-vis-2.png?raw=true)
 
 
 #### Jaeger Tracing Visualization
