@@ -938,12 +938,14 @@ Tore Down Deployment: carma-obfs-ssEmail
 
 ### Prism with Snowflake, destiniPixelfed, and ssEmail
 
-This deployment is the same as the Prism deployment above, but now using [Snowflake](https://github.com/tst-race/race-snowflake), [ssEmail](https://github.com/tst-race/race-semanticsteg), and [destiniPixelfed](https://github.com/tst-race/race-destini) for communications. We will demonstrate the use of some Prism-specific configuration arguments to tell it _how_ we think it should use these channels. In particular, ssEmail and destiniPixelfed are two different _indirect_ channels, meaning they use a third-party service as an intermediary for sending messages. ssEmail is described above; destiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
+This deployment is similar to the Prism deployment above, but now using [Snowflake](https://github.com/tst-race/race-snowflake), [ssEmail](https://github.com/tst-race/race-semanticsteg), and [destiniPixelfed](https://github.com/tst-race/race-destini) for communications. We have also reduced the number of servers to 6 instead of 10, because some hosts had difficulty running 10 servers due to memory constraints. 
+
+We will demonstrate the use of some Prism-specific configuration arguments to tell it _how_ we think it should use these channels. In particular, ssEmail and destiniPixelfed are two different _indirect_ channels, meaning they use a third-party service as an intermediary for sending messages. ssEmail is described above; destiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
 
 ```
 rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --linux-client-count=4 \
-    --linux-server-count=10 \
+    --linux-server-count=6 \
     --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
@@ -965,7 +967,7 @@ rib-use local prism-snowflake-destiniPixelfed-ssEmail
 <summary>Example output</summary>
 
 ```
-rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail     --linux-client-count=4     --linux-server-count=10     --race-node-arch=x86_64     --android-client-count=1     --android-client-bridge-count=1     --race-core=tag=2.6.0-beta-4,org=tst-race,repo=race-core     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main     --network-manager-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-prism     --comms-channel=snowflake --comms-kit=tag=2.6.0-beta-1,org=tst-race,repo=race-snowflake     --comms-channel=ssEmail --comms-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-semanticsteg     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
+rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail     --linux-client-count=4     --linux-server-count=6     --race-node-arch=x86_64     --android-client-count=1     --android-client-bridge-count=1     --race-core=tag=2.6.0-beta-4,org=tst-race,repo=race-core     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main     --network-manager-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-prism     --comms-channel=snowflake --comms-kit=tag=2.6.0-beta-1,org=tst-race,repo=race-snowflake     --comms-channel=ssEmail --comms-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-semanticsteg     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
 Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
 Using default Android app: core=raceclient-android
 Using default Linux app: core=racetestapp-linux
@@ -987,13 +989,12 @@ warning: [2024-01-17 19:06:32,505][line 476][generate_link_profile_configs][INFO
 warning: [2024-01-17 19:06:32,506][line 486][generate_link_profile_configs][INFO] : Reading network manager requests from /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json
 warning: [2024-01-17 19:06:32,508][line 575][generate_link_profile_configs][DEBUG] : race_configs name: prism-snowflake-destiniPixelfed-ssEmail
 warning: [2024-01-17 19:06:32,508][line 576][generate_link_profile_configs][DEBUG] : race_configs bastion: {}
-warning: [2024-01-17 19:06:32,508][line 577][generate_link_profile_configs][DEBUG] : race_configs: 15 nodes
+warning: [2024-01-17 19:06:32,508][line 577][generate_link_profile_configs][DEBUG] : race_configs: 11 nodes
 warning: [2024-01-17 19:06:32,508][line 578][generate_link_profile_configs][DEBUG] : race_configs: 1 enclaves
 warning: [2024-01-17 19:06:32,508][line 579][generate_link_profile_configs][DEBUG] : race_configs services:
 warning: []
 warning: [2024-01-17 19:06:32,509][line 584][generate_link_profile_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
 warning: [2024-01-17 19:06:32,510][line 664][generate_link_profile_configs][DEBUG] : Deleting index 1 of 2
-warning: [2024-01-17 19:06:32,510][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-server-00008'] to race-client-00001's creator personas
 warning: [2024-01-17 19:06:32,510][line 686][generate_link_profile_configs][INFO] : GENERATED 10 LINK-PROFILES
 warning: [2024-01-17 19:06:32,510][line 687][generate_link_profile_configs][INFO] : DELETED (combined) 1 LINK-PROFILES
 warning: [2024-01-17 19:06:32,510][line 702][generate_user_responses_configs][INFO] : Getting range.json for RACE Link Profile Configs
@@ -1017,15 +1018,11 @@ Created configs/etc archives for race-server-00004
 Created configs/etc archives for race-client-00005
 Created configs/etc archives for race-server-00002
 Created configs/etc archives for race-client-00004
-Created configs/etc archives for race-server-00007
-Created configs/etc archives for race-server-00008
 Created configs/etc archives for race-server-00006
 Created configs/etc archives for race-client-00003
 Created configs/etc archives for race-server-00003
 Created configs/etc archives for race-server-00005
-Created configs/etc archives for race-server-00009
 Created configs/etc archives for race-server-00001
-Created configs/etc archives for race-server-00010
 Created configs/etc archives for race-client-00001
 Created Local Deployment: prism-snowflake-destiniPixelfed-ssEmail
 Run `rib-use local prism-snowflake-destiniPixelfed-ssEmail` to enable shortcut commands for this deployment
@@ -1099,14 +1096,10 @@ Created configs/etc archives for race-client-00003
 Created configs/etc archives for race-client-00004
 Created configs/etc archives for race-server-00005
 Created configs/etc archives for race-client-00001
-Created configs/etc archives for race-server-00009
 Created configs/etc archives for race-client-00002
 Created configs/etc archives for race-client-00005
 Created configs/etc archives for race-server-00006
-Created configs/etc archives for race-server-00008
-Created configs/etc archives for race-server-00007
 Created configs/etc archives for race-server-00004
-Created configs/etc archives for race-server-00010
 Created configs/etc archives for race-server-00002
 3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code#
 3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment up
