@@ -31,6 +31,11 @@ RACE is an open source project aimed at developing technologies to provide metad
 ## What is this Guide?
 This is quick start guide for running a small network of RACE nodes on a personal laptop or server. Running the below commands will download prebuilt RACE code and docker images to run a self-contained overlay network of RACE servers and clients for trying out the RACE software, with the option to include Android clients (either as emulators or physical devices). The network of RACE nodes created (called a _deployment_) is _not_ a simulation, it is a set of docker containers running the actual RACE software; all the nodes just happen to be containers running on a single host. The same software would be run on separate physical machines in a full-scale deployment.
 
+## Resource Requirements
+This guide has been tested on laptops with 32GB of RAM and 6-Core CPUs. If trying to run on lower-resource devices (particularly RAM) some of these test deployments may not run. This is because these test deployments are running _all_ RACE nodes on the host, and does not reflect the resource requirements of a real-world RACE deployment where only a single node would be running on any given host. 
+
+The host system will need about 40GB of free storage for the docker images, software, and deployment logs that are used in this guide.
+
 ## Environment Setup
 Download and run the Race-in-the-Box (RIB) entrypoint script. This automatically pulls a docker image for orchestrating running local tests of RACE networks. 
 
@@ -446,7 +451,8 @@ Started All Nodes In Deployment: prism (local)
 
 </details>
 
-[Prism](https://github.com/tst-race/race-prism) has adaptive organization capability which means its node need a few moments to "get organized" after it is started before messages will be able to be routed.
+___Note:___
+[Prism](https://github.com/tst-race/race-prism) has adaptive organization capability which means __its nodes need a few moments__ to "get organized" after it is started before messages will be able to be routed.
 
 When you are done testing, use the following commands to end the deployment.
 
@@ -680,6 +686,9 @@ Up to this point we have been using stand-in channels for communications between
 This deployment is the same as the Carma deployment above, but now we have added arguments to include [Obfs](https://github.com/tst-race/race-obfs) and [ssEmail](https://github.com/tst-race/race-semanticsteg) for communications. Carma chooses how and where to use these channels - in this case it will use Obfs for server-to-server traffic since it is high-bandwidth and low-latency, but requires revealing the IP address of the other endpoint.
 
 Carma will use ssEmail for client-server traffic: ssEmail transmits data by encoding it into the semantic space of an image (i.e. it generates wholly new images, rather than altering existing ones) and then attaching the image to an email sent to another node. This prevents either node from learning the IP address of the other, they just know one another's email addresses. In addition to additional processing time to encode and decode images, the ssEmail channel also limits the rate at which emails are sent to avoid standing out. In short, the messages will take longer to be received but the whole system will be stealthy.
+
+___Note:___
+This deployment uses ssEmail which has fairly large machine-learning models as part of its functionality. The `create` command pulls down these models, which total about 1.6GB, so it may take a while to complete, just be patient.
 
 ```
 rib deployment local create --name=carma-obfs-ssEmail \
@@ -942,6 +951,9 @@ This deployment is similar to the Prism deployment above, but now using [Snowfla
 
 We will demonstrate the use of some Prism-specific configuration arguments to tell it _how_ we think it should use these channels. In particular, ssEmail and destiniPixelfed are two different _indirect_ channels, meaning they use a third-party service as an intermediary for sending messages. ssEmail is described above; destiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
 
+___Note:___
+This deployment uses ssEmail which has fairly large machine-learning models as part of its functionality, and destini, which comes bundled with a set of images and videos for encoding into. The `create` command pulls down these models and images, which total about 2GB, so it may take a while to complete, just be patient.
+
 ```
 rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --linux-client-count=4 \
@@ -960,6 +972,17 @@ rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-beta-2,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
 
 rib-use local prism-snowflake-destiniPixelfed-ssEmail
+
+deployment config generate --network-manager-custom-args="-TssEmail=uplink,epoch -TdestiniPixelfed=ark,downlink" --force
+
+deployment up
+
+# Optional commands if you are using a physical android client
+deployment bridged android prepare --persona=race-client-00005
+deployment bridged android connect
+# End optional commands
+
+deployment start
 ```
 
 
@@ -1026,30 +1049,6 @@ Created configs/etc archives for race-server-00001
 Created configs/etc archives for race-client-00001
 Created Local Deployment: prism-snowflake-destiniPixelfed-ssEmail
 Run `rib-use local prism-snowflake-destiniPixelfed-ssEmail` to enable shortcut commands for this deployment
-```
-
-</details>
-
-#### Custom configuration Argument
-As described above, we will specify a custom argument to Prism's config generation logic to specify how we want specific channels used.
-
-```
-deployment config generate --network-manager-custom-args="-TssEmail=uplink,epoch -TdestiniPixelfed=ark,downlink" --force
-
-deployment up
-
-# Optional commands if you are using a physical android client
-deployment bridged android prepare --persona=race-client-00005
-deployment bridged android connect
-# End optional commands
-
-deployment start
-```
-
-<details>
-<summary>Example output</summary>
-
-```
 3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment config generate --network-manager-custom-args="-TssEmail=uplink,epoch -TdestiniPixelfed=ark,downlink" --force
 Generating configs for deployment prism-snowflake-destiniPixelfed-ssEmail (local)
 Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/SnowflakePluginComms/snowflake
@@ -1141,8 +1140,7 @@ Started All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
 
 </details>
 
-
-___Note:___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so give it a few minutes before expecting messages to get through.
+___Note:___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so __give it a few minutes__ before expecting messages to get through. After the organization has occurred, messages should have 30-90s latencies, although host resource constraints could increase those.
 
 When you are done testing, use the following commands to end the deployment.
 
