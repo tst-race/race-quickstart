@@ -37,8 +37,8 @@ Download and run the Race-in-the-Box (RIB) entrypoint script. This automatically
 ```
 mkdir race-code
 cd race-code
-curl https://raw.githubusercontent.com/tst-race/race-in-the-box/2.6.0-beta-1/entrypoints/rib_2.6.0.sh?token=GHSAT0AAAAAACDMSZOK4VHZTU6EFRA7YR7EZMBYNAQ -o rib_2.6.0.sh
-bash rib_2.6.0.sh --version=2.6.0-beta-1 --ui
+curl https://raw.githubusercontent.com/tst-race/race-in-the-box/2.6.0-beta-2/entrypoints/rib_2.6.0.sh?token=GHSAT0AAAAAACDMSZOK4VHZTU6EFRA7YR7EZMBYNAQ -o rib_2.6.0.sh
+bash rib_2.6.0.sh --version=2.6.0-beta-2 --ui
 ```
 
 That command pulled and ran a docker image to give you an interactive commandline prompt for the RIB test environment. All the commands below are expected to be run on that prompt inside the RIB container.
