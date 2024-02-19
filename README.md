@@ -155,7 +155,7 @@ _____Note:_____ Running _up_ the first time will take some time because this is 
 _If_ you are including a physical android device in the deployment, then do the following:
 1. Ensure the phone is on the same LAN as your main computer (the phone will connect to a docker container running there).
 2. Plug the phone into the main computer and check that `adb devices` shows the device [Instructions for troubleshooting].
-3. Run these additional steps (_after_ `up` has finished)
+3. Run these additional steps ___after___ `up` has finished. Several pop-up dialogs may appear asking for permissions: this is expected - RACE uses a managed OpenVPN app to connect to the docker network running on the host and automatically installs the RACE app. There is nothing malicious or persistent about what this process installs on the device but _in general_ you should use a dedicated development device and not your personal device for these kinds of activities.
 
 ```
 deployment bridged android prepare --persona=race-client-00005
