@@ -945,17 +945,14 @@ Tore Down Deployment: carma-obfs-ssEmail
 
 </details>
 
-### Prism with Snowflake, destiniPixelfed, and ssEmail
+### Prism with Snowflake and destiniPixelfed
 
-This deployment is similar to the Prism deployment above, but now using [Snowflake](https://github.com/tst-race/race-snowflake), [ssEmail](https://github.com/tst-race/race-semanticsteg), and [destiniPixelfed](https://github.com/tst-race/race-destini) for communications. We have also reduced the number of servers to 6 instead of 10, because some hosts had difficulty running 10 servers due to memory constraints. 
+This deployment is similar to the Prism deployment above, but now using [Snowflake](https://github.com/tst-race/race-snowflake), and [destiniPixelfed](https://github.com/tst-race/race-destini) for communications. We have also reduced the number of servers to 6 instead of 10, because some hosts had difficulty running 10 servers due to memory constraints. 
 
-We will demonstrate the use of some Prism-specific configuration arguments to tell it _how_ we think it should use these channels. In particular, ssEmail and destiniPixelfed are two different _indirect_ channels, meaning they use a third-party service as an intermediary for sending messages. ssEmail is described above; destiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
-
-___Note:___
-This deployment uses ssEmail which has fairly large machine-learning models as part of its functionality, and destini, which comes bundled with a set of images and videos for encoding into. The `create` command pulls down these models and images, which total about 2GB, so it may take a while to complete, just be patient.
+DestiniPixelfed also uses image steganography but of a different type (it encodes messages into existing images) and transmits the image by posting it to a mock "whiteboard" service, meant to stand-in for the myriad social media and file drop services that exist on the internet. Our configuration arguments will tell Prism which types of messages to send on each channel to optimize its performance. If left to defaults, Prism will randomly load-balance messaging between the two.
 
 ```
-rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
+rib deployment local create --name=prism-snowflake-destiniPixelfed \
     --linux-client-count=4 \
     --linux-server-count=6 \
     --race-node-arch=x86_64 \
@@ -968,12 +965,9 @@ rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism \
     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake \
-    --comms-channel=ssEmail --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-semanticsteg \
     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
 
-rib-use local prism-snowflake-destiniPixelfed-ssEmail
-
-deployment config generate --network-manager-custom-args="-TssEmail=uplink,epoch -TdestiniPixelfed=ark,downlink" --force
+rib-use local prism-snowflake-destiniPixelfed
 
 deployment up
 
@@ -990,152 +984,6 @@ deployment start
 <summary>Example output</summary>
 
 ```
-rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail     --linux-client-count=4     --linux-server-count=6     --race-node-arch=x86_64     --android-client-count=1     --android-client-bridge-count=1     --race-core=tag=2.6.0-v1,org=tst-race,repo=race-core     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake     --comms-channel=ssEmail --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-semanticsteg     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
-Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
-Using default Android app: core=raceclient-android
-Using default Linux app: core=racetestapp-linux
-Using default Node daemon: core=race-node-daemon
-Creating Local Deployment: prism-snowflake-destiniPixelfed-ssEmail
-WARNING: Plugin SnowflakePluginComms does not contain artifacts for these nodes ['linux_x86_64_client', 'android_x86_64_client', 'android_arm64-v8a_client']
-Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/SnowflakePluginComms/snowflake
-warning: [2024-01-17 19:06:32,495][line 869][get_args][DEBUG] : Ensuring range /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/race-config.json exists
-warning: [2024-01-17 19:06:32,496][line 873][get_args][DEBUG] : Ensuring network-manager-request /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json exists
-warning: [2024-01-17 19:06:32,496][line 879][get_args][INFO] : config-dir /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg doesn't exist ; creating it now
-warning: [2024-01-17 19:06:32,499][line 100][main][INFO] : Starting Process To Generate RACE Plugin Config
-warning: [2024-01-17 19:06:32,499][line 102][main][INFO] : -
-warning: Copying channel_properties.json to correct directory
-warning: -
-warning: [2024-01-17 19:06:32,505][line 121][main][INFO] : -
-warning: Generating link profile configs
-warning: -
-warning: [2024-01-17 19:06:32,505][line 476][generate_link_profile_configs][INFO] : Getting range.json for RACE Link Profile Configs
-warning: [2024-01-17 19:06:32,506][line 486][generate_link_profile_configs][INFO] : Reading network manager requests from /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json
-warning: [2024-01-17 19:06:32,508][line 575][generate_link_profile_configs][DEBUG] : race_configs name: prism-snowflake-destiniPixelfed-ssEmail
-warning: [2024-01-17 19:06:32,508][line 576][generate_link_profile_configs][DEBUG] : race_configs bastion: {}
-warning: [2024-01-17 19:06:32,508][line 577][generate_link_profile_configs][DEBUG] : race_configs: 11 nodes
-warning: [2024-01-17 19:06:32,508][line 578][generate_link_profile_configs][DEBUG] : race_configs: 1 enclaves
-warning: [2024-01-17 19:06:32,508][line 579][generate_link_profile_configs][DEBUG] : race_configs services:
-warning: []
-warning: [2024-01-17 19:06:32,509][line 584][generate_link_profile_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
-warning: [2024-01-17 19:06:32,510][line 664][generate_link_profile_configs][DEBUG] : Deleting index 1 of 2
-warning: [2024-01-17 19:06:32,510][line 686][generate_link_profile_configs][INFO] : GENERATED 10 LINK-PROFILES
-warning: [2024-01-17 19:06:32,510][line 687][generate_link_profile_configs][INFO] : DELETED (combined) 1 LINK-PROFILES
-warning: [2024-01-17 19:06:32,510][line 702][generate_user_responses_configs][INFO] : Getting range.json for RACE Link Profile Configs
-warning: [2024-01-17 19:06:32,512][line 709][generate_user_responses_configs][DEBUG] : RACE_nodes: 15 nodes
-warning: [2024-01-17 19:06:32,512][line 717][generate_user_responses_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
-warning: [2024-01-17 19:06:32,554][line 126][main][INFO] : -
-warning: Done generating link profile configs. Storing RACE genesis-link-addresses in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
-warning: -
-warning: [2024-01-17 19:06:32,560][line 147][main][INFO] : -
-warning: Done storing link profile configs. Storing fulfilled network manager requests in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
-warning: -
-warning: [2024-01-17 19:06:32,562][line 162][main][INFO] : -
-warning: Process To Generate RACE genesis-link-addresses.json Complete
-warning: -
-Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
-Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/DestiniPixelfed/destiniPixelfed
-Network manager config gen status: complete, reason: success
-Creating configs archive
-Created configs/etc archives for race-client-00002
-Created configs/etc archives for race-server-00004
-Created configs/etc archives for race-client-00005
-Created configs/etc archives for race-server-00002
-Created configs/etc archives for race-client-00004
-Created configs/etc archives for race-server-00006
-Created configs/etc archives for race-client-00003
-Created configs/etc archives for race-server-00003
-Created configs/etc archives for race-server-00005
-Created configs/etc archives for race-server-00001
-Created configs/etc archives for race-client-00001
-Created Local Deployment: prism-snowflake-destiniPixelfed-ssEmail
-Run `rib-use local prism-snowflake-destiniPixelfed-ssEmail` to enable shortcut commands for this deployment
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment config generate --network-manager-custom-args="-TssEmail=uplink,epoch -TdestiniPixelfed=ark,downlink" --force
-Generating configs for deployment prism-snowflake-destiniPixelfed-ssEmail (local)
-Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/SnowflakePluginComms/snowflake
-warning: [2024-01-17 19:15:20,078][line 869][get_args][DEBUG] : Ensuring range /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/race-config.json exists
-warning: [2024-01-17 19:15:20,078][line 873][get_args][DEBUG] : Ensuring network-manager-request /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json exists
-warning: [2024-01-17 19:15:20,079][line 879][get_args][INFO] : config-dir /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg doesn't exist ; creating it now
-warning: [2024-01-17 19:15:20,080][line 100][main][INFO] : Starting Process To Generate RACE Plugin Config
-warning: [2024-01-17 19:15:20,081][line 102][main][INFO] : -
-warning: Copying channel_properties.json to correct directory
-warning: -
-warning: [2024-01-17 19:15:20,085][line 121][main][INFO] : -
-warning: Generating link profile configs
-warning: -
-warning: [2024-01-17 19:15:20,085][line 476][generate_link_profile_configs][INFO] : Getting range.json for RACE Link Profile Configs
-warning: [2024-01-17 19:15:20,086][line 486][generate_link_profile_configs][INFO] : Reading network manager requests from /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json
-warning: [2024-01-17 19:15:20,087][line 575][generate_link_profile_configs][DEBUG] : race_configs name: prism-snowflake-destiniPixelfed-ssEmail
-warning: [2024-01-17 19:15:20,087][line 576][generate_link_profile_configs][DEBUG] : race_configs bastion: {}
-warning: [2024-01-17 19:15:20,087][line 577][generate_link_profile_configs][DEBUG] : race_configs: 15 nodes
-warning: [2024-01-17 19:15:20,087][line 578][generate_link_profile_configs][DEBUG] : race_configs: 1 enclaves
-warning: [2024-01-17 19:15:20,087][line 579][generate_link_profile_configs][DEBUG] : race_configs services:
-warning: []
-warning: [2024-01-17 19:15:20,087][line 584][generate_link_profile_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
-warning: [2024-01-17 19:15:20,087][line 686][generate_link_profile_configs][INFO] : GENERATED 0 LINK-PROFILES
-warning: [2024-01-17 19:15:20,087][line 687][generate_link_profile_configs][INFO] : DELETED (combined) 0 LINK-PROFILES
-warning: [2024-01-17 19:15:20,087][line 702][generate_user_responses_configs][INFO] : Getting range.json for RACE Link Profile Configs
-warning: [2024-01-17 19:15:20,088][line 709][generate_user_responses_configs][DEBUG] : RACE_nodes: 15 nodes
-warning: [2024-01-17 19:15:20,088][line 717][generate_user_responses_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
-warning: [2024-01-17 19:15:20,122][line 126][main][INFO] : -
-warning: Done generating link profile configs. Storing RACE genesis-link-addresses in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
-warning: -
-warning: [2024-01-17 19:15:20,126][line 147][main][INFO] : -
-warning: Done storing link profile configs. Storing fulfilled network manager requests in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
-warning: -
-warning: [2024-01-17 19:15:20,128][line 162][main][INFO] : -
-warning: Process To Generate RACE genesis-link-addresses.json Complete
-warning: -
-Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
-Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/DestiniPixelfed/destiniPixelfed
-Network manager config gen status: complete, reason: success
-Creating configs archive
-Created configs/etc archives for race-server-00001
-Created configs/etc archives for race-server-00003
-Created configs/etc archives for race-client-00003
-Created configs/etc archives for race-client-00004
-Created configs/etc archives for race-server-00005
-Created configs/etc archives for race-client-00001
-Created configs/etc archives for race-client-00002
-Created configs/etc archives for race-client-00005
-Created configs/etc archives for race-server-00006
-Created configs/etc archives for race-server-00004
-Created configs/etc archives for race-server-00002
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code#
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment up
-Using default RiB mode: local
-Using default verbosity: 0
-Standing Up Deployment: prism-snowflake-destiniPixelfed-ssEmail
-Starting deployment services
-Comms (snowflake) Start External Services
-Comms (ssEmail) Start External Services
-Comms (destiniPixelfed) Start External Services
-ArtifactManager (PluginArtifactManagerTwoSixCpp) Start External Services
-Waiting for 23 containers to stand up............................done
-Waiting for 14 nodes to stand up...done
-Waiting for services to stand up...done
-Uploading configs archive
-Waiting for 14 nodes to pull configs.....done
-Stood Up Deployment: prism-snowflake-destiniPixelfed-ssEmail
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code#
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# # Optional commands if you are using a physical android client
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment bridged android prepare --persona=race-client-00005
-Preparing Android device <YOUR DEVICE SERIAL ID> to run as race-client-00005
-<Command "/bin/sed -i 's/remote race 1194 udp/remote <YOUR HOST IP> 1194 udp/' /tmp/race.ovpn", pid 5072>: process started
-Prepared Android device <YOUR DEVICE SERIAL ID> to run as race-client-00005
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment bridged android connect
-Connecting Android device <YOUR DEVICE SERIAL ID>
-Waiting for 1 nodes to connect...........done
-Waiting for 1 nodes to pull configs.......done
-Connected Android device <YOUR DEVICE SERIAL ID>
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# # End optional commands
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code#
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment start
-Starting All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
-Waiting for 15 nodes to start................
-Waiting for 15 nodes to start................
-Waiting for 14 nodes to start.................
-Waiting for 14 nodes to start.................done
-Started All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
 ```
 
 </details>
@@ -1158,33 +1006,6 @@ deployment down
 <summary>Example output</summary>
 
 ```
-rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment stop
-Stopping All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
-Waiting for 15 nodes to stop......................
-Waiting for 2 nodes to stop.........done
-Stopped All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code#
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment bridged android disconnect
-Disconnecting Android device <YOUR DEVICE SERIAL ID>
-Waiting for 1 nodes to disconnect..........done
-Disconnected Android device <YOUR DEVICE SERIAL ID>
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment bridged android unprepare
-Unpreparing Android device <YOUR DEVICE SERIAL ID>
-Unprepared Android device <YOUR DEVICE SERIAL ID>
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code#
-3757) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment down
-Using default RiB mode: local
-Using default verbosity: 0
-Tearing Down Deployment: prism-snowflake-destiniPixelfed-ssEmail
-Stopping deployment services
-Waiting for 23 containers to tear down...done
-Waiting for 14 nodes to tear down...done
-Comms (snowflake) Stop External Services
-Comms (ssEmail) Stop External Services
-Comms (destiniPixelfed) Stop External Services
-ArtifactManager (PluginArtifactManagerTwoSixCpp) Stop External Services
-Waiting for services to tear down...done
-Tore Down Deployment: prism-snowflake-destiniPixelfed-ssEmail
 ```
 
 </details>
@@ -1313,8 +1134,6 @@ deployment local down --name=<NAME> --force
 ```
 
 You can verify it has been brought down by running the active command again.
-<details><summary>Example Output</summary>
-
 ```
 1955) rib:development@code# rib deployment local active
 Getting Active Deployments
@@ -1331,12 +1150,12 @@ deployment local bridged android unprepare --name=<NAME>
 ```
 
 <details><summary>Example Output</summary>
-
 ```
 1955) rib:development@code# deployment local bridged android unprepare --name=<NAME>
 Unpreparing Android device <YOUR DEVICE SERIAL ID>
 Unprepared Android device <YOUR DEVICE SERIAL ID>
 ```
+</details>
 
 ___Note:___ <NAME> can be the name of any existing deployment (e.g. `basic`)
 
