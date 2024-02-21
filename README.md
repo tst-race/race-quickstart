@@ -68,7 +68,6 @@ Running the following commands will pull down prebuilt RACE software, use them t
 rib deployment local create --name=basic \
     --linux-client-count=4 \
     --linux-server-count=6 \
-    --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -88,7 +87,6 @@ deployment up
 1) rib:development@code# rib deployment local create --name=basic \
 >     --linux-client-count=4 \
 >     --linux-server-count=6 \
->     --race-node-arch=x86_64 \
 >     --android-client-count=1 \
 >     --android-client-bridge-count=1 \
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -202,6 +200,11 @@ Started All Nodes In Deployment: basic (local)
 ```
 
 </details>
+
+___Note:___ If the deployment fails to start, there are a few things to check first:
+1. Do you have sufficient storage (at least 10GB free after `create` and `up` have finished)?
+2. Is your architecture correctly detected? Run `env | grep HOST_ARCHITECTURE` in the RIB terminal, it should read x86_64 or arm64 depending on your CPU architecture. If not, export the correct value inside the RIB terminal: `export HOST_ARCHITECTURE=<x86_64 or arm64>`.
+3. Is your IP correctly detected? Run `env | HOST_LAN_IP_ADDRESS` in the RIB terminal, it should match your actual IP address. If not, re-run `rib_2.6.0.sh` with `-i <Your IP Address>`.
 
 
 
@@ -342,7 +345,6 @@ There are two different implementations of anonymous message routing across a re
 rib deployment local create --name=prism \
     --linux-client-count=4 \
     --linux-server-count=10 \
-    --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -371,7 +373,6 @@ deployment start
 202) rib:development:local:basic@code# rib deployment local create --name=prism \
 >     --linux-client-count=4 \
 >     --linux-server-count=10 \
->     --race-node-arch=x86_64 \
 >     --android-client-count=1 \
 >     --android-client-bridge-count=1 \
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -507,7 +508,6 @@ Tore Down Deployment: prism
 rib deployment local create --name=carma \
     --linux-client-count=4 \
     --linux-server-count=20 \
-    --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -536,7 +536,6 @@ deployment start
 1289) rib:development:local:prism@code# rib deployment local create --name=carma \
 >     --linux-client-count=4 \
 >     --linux-server-count=20 \
->     --race-node-arch=x86_64 \
 >     --android-client-count=1 \
 >     --android-client-bridge-count=1 \
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -696,7 +695,6 @@ This deployment uses ssEmail which has fairly large machine-learning models as p
 rib deployment local create --name=carma-obfs-ssEmail \
     --linux-client-count=4 \
     --linux-server-count=20 \
-    --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -727,7 +725,6 @@ deployment start
 2172) rib:development:local:carma@code# rib deployment local create --name=carma-obfs-ssEmail \
 >     --linux-client-count=4 \
 >     --linux-server-count=20 \
->     --race-node-arch=x86_64 \
 >     --android-client-count=1 \
 >     --android-client-bridge-count=1 \
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -959,7 +956,6 @@ DestiniPixelfed also uses image steganography but of a different type (it encode
 rib deployment local create --name=prism-snowflake-destiniPixelfed \
     --linux-client-count=4 \
     --linux-server-count=6 \
-    --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -988,7 +984,7 @@ deployment start
 <summary>Example output</summary>
 
 ```
-27783) rib:development:local@code# rib deployment local create --name=prism-snowflake-destiniPixelfed     --linux-client-count=4     --linux-server-count=6     --race-node-arch=x86_64     --android-client-count=1     --android-client-bridge-count=1     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
+27783) rib:development:local@code# rib deployment local create --name=prism-snowflake-destiniPixelfed     --linux-client-count=4     --linux-server-count=6    --android-client-count=1     --android-client-bridge-count=1     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
 Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
 Using default Android app: core=raceclient-android
 Using default Linux app: core=racetestapp-linux
