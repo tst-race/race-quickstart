@@ -73,7 +73,7 @@ rib deployment local create --name=basic \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
-    --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main
 
 rib-use local basic
 deployment up
@@ -91,7 +91,7 @@ deployment up
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
->     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main
 Using default Network manager kit: core=plugin-network-manager-twosix-cpp
 Using default Comms channels: ('twoSixDirectCpp', 'twoSixIndirectCpp', 'twoSixIndirectBootstrapCpp')
 Using default Comms kits: ('core=plugin-comms-twosix-cpp',)
