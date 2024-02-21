@@ -73,7 +73,8 @@ rib deployment local create --name=basic \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
-    --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main
+    --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main
 
 rib-use local basic
 deployment up
@@ -91,7 +92,8 @@ deployment up
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
->     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main
+>     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main
 Using default Network manager kit: core=plugin-network-manager-twosix-cpp
 Using default Comms channels: ('twoSixDirectCpp', 'twoSixIndirectCpp', 'twoSixIndirectBootstrapCpp')
 Using default Comms kits: ('core=plugin-comms-twosix-cpp',)
@@ -201,8 +203,8 @@ Started All Nodes In Deployment: basic (local)
 
 ___Note:___ If the deployment fails to start, there are a few things to check first:
 1. Do you have sufficient storage (at least 10GB free after `create` and `up` have finished)?
-2. Is your architecture correctly detected? Run `env | grep HOST_ARCHITECTURE` in the RIB terminal, it should read x86_64 or arm64 depending on your CPU architecture. If not, export the correct value inside the RIB terminal: `export HOST_ARCHITECTURE=<x86_64 or arm64>`.
-3. Is your IP correctly detected? Run `env | HOST_LAN_IP_ADDRESS` in the RIB terminal, it should match your actual IP address. If not, re-run `rib_2.6.0.sh` with `-i <Your IP Address>`.
+2. Is your architecture correctly detected? Run `env | grep HOST_ARCHITECTURE` in the RIB terminal, it should read x86_64 or arm64 depending on your CPU architecture.
+3. Is your IP correctly detected? Run `env | HOST_LAN_IP_ADDRESS` in the RIB terminal, it should match your actual IP address. 
 
 
 
@@ -349,6 +351,7 @@ rib deployment local create --name=prism \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism
 
 rib-use local prism
@@ -376,6 +379,7 @@ deployment start
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
 >     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism
 physical android client
 deployment bridged android prepare --persona=race-client-00005
@@ -510,6 +514,7 @@ rib deployment local create --name=carma \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/
 
 rib-use local carma
@@ -537,6 +542,7 @@ deployment start
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
 >     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/
 ands if you are using a physical android client
 deployment bridged android prepare --persona=race-client-00005
@@ -695,6 +701,7 @@ rib deployment local create --name=carma-obfs-ssEmail \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/ \
     --comms-channel=obfs --comms-kit=tag=2.6.0-v1,repo=race-obfs,org=tst-race \
     --comms-channel=ssEmail --comms-kit=tag=2.6.0-v1,repo=race-semanticsteg,org=tst-race
@@ -724,6 +731,7 @@ deployment start
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
 >     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/ \
 >     --comms-channel=obfs --comms-kit=tag=2.6.0-v1,repo=race-obfs,org=tst-race \
 >     --comms-channel=ssEmail --comms-kit=tag=2.6.0-v1,repo=race-semanticsteg,org=tst-race
@@ -954,6 +962,7 @@ rib deployment local create --name=prism-snowflake-destiniPixelfed \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main \
     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism \
     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake \
     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
@@ -975,18 +984,7 @@ deployment start
 <summary>Example output</summary>
 
 ```
-27783) rib:development:local@code# rib deployment local create --name=prism-snowflake-destiniPixelfed \
-    --linux-client-count=4 \
-    --linux-server-count=6 \
-   --android-client-count=1  \
-   --android-client-bridge-count=1 \
-    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
-    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
-    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
-    --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
-        --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism \
-    --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake \
-    --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
+27783) rib:development:local@code# rib deployment local create --name=prism-snowflake-destiniPixelfed     --linux-client-count=4     --linux-server-count=6    --android-client-count=1     --android-client-bridge-count=1     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
 Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
 Using default Android app: core=raceclient-android
 Using default Linux app: core=racetestapp-linux
