@@ -226,7 +226,13 @@ Manual Message Send Complete
 
 </details>
 
-You can change the sender and recipient, or leave either blank to cause messages to be sent _from_ all nodes (if sender is omitted) or _to_ all nodes (if receiver is omitted). If you are using an Android client, you can also manually send messages in the UI and look at received messages.
+You can change the sender and recipient, or leave either blank to cause messages to be sent _from_ all nodes (if sender is omitted) or _to_ all nodes (if receiver is omitted):
+
+```
+deployment message send-manual --message="Hello to all and from all!"
+```
+
+If you are using an Android client, you can also manually send messages in the UI and look at received messages.
 
 You can view the status of messages that have been sent on the commandline by running:
 ```
@@ -455,7 +461,15 @@ Started All Nodes In Deployment: prism (local)
 </details>
 
 ___Note:___
-[Prism](https://github.com/tst-race/race-prism) has adaptive organization capability which means __its nodes need a few moments__ to "get organized" after it is started before messages will be able to be routed.
+[Prism](https://github.com/tst-race/race-prism) has adaptive organization capability which means __its nodes need a few moments__ (about 10 seconds) to "get organized" after it is started before messages will be able to be routed.
+
+You can send messages and view them in-flight just as in the basic deployment:
+```
+deployment message send-manual --message="Hello to all and from all!"
+sleep 5
+pollmsg.py
+```
+
 
 When you are done testing, use the following commands to end the deployment.
 
@@ -626,6 +640,13 @@ Started All Nodes In Deployment: carma (local)
 ```
 
 </details>
+
+You can send messages and view them in-flight just as in the basic deployment:
+```
+deployment message send-manual --message="Hello to all and from all!"
+sleep 5
+pollmsg.py
+```
 
 ___Note:___ [Carma](https://github.com/tst-race/race-carma) has a notion of a "batch" of messages that are processed simultaneously to mitigate using timing-analyses to deanonymize messaging. Therefore, you will need to send multiple messages ___(generally at least 4)___ before the system will route them. Thus, if you send a single message it may never arrive until you send more, but it _is_ being stored in the server overlay awaiting more messages to be mixed with, so it will not be lost.
 
@@ -899,6 +920,13 @@ Started All Nodes In Deployment: carma-obfs-ssEmail (local)
 
 ___Be Patient!___ using really-covert indirect channels for client-to-server communications slows messaging down significantly, as does running multiple ML-based steganographic techniques on a single host. For reference, sending a single message between each pair of clients (i.e. 20 messages) took roughly 10 minutes for all messages to be received on a laptop with 32GB of RAM and an 8-core 2.3GHz CPU.
 
+You can send messages and view them in-flight just as in the basic deployment:
+```
+deployment message send-manual --message="Hello to all and from all!"
+sleep 5
+pollmsg.py
+```
+
 When you are done testing, use the following commands to end the deployment.
 
 ```
@@ -1048,7 +1076,21 @@ Started All Nodes In Deployment: prism-snowflake-destiniPixelfed (local)
 
 </details>
 
-___Be Patient!___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so __give it a few minutes__ before expecting messages to get through. After the organization has occurred, messages should have 30-90s latencies, although host resource constraints could increase those.
+___Be Patient!___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so __give it a few minutes__ (roughly 5 minutes, depending on host resources) before expecting messages to get through. After the organization has occurred, messages should have 30-90s latencies, although host resource constraints could increase those.
+
+You can use the network visualization tools to determine if Prism clients are ready:
+```
+inspect_links.py | wc -l
+```
+Then browse to `localhost:6080` - if the force diagram shows client nodes with links connecting to servers, then things are ready.
+
+
+Once connected, you can send messages and view them in-flight just as in the basic deployment:
+```
+deployment message send-manual --message="Hello to all and from all!"
+sleep 5
+pollmsg.py
+```
 
 When you are done testing, use the following commands to end the deployment.
 
