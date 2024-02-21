@@ -1,4 +1,4 @@
-# RACE Quickstart (WIP)
+# RACE Quickstart
 Welcome to the quickstart guide for trying out the Resilient Anonymous Communications for Everyone (RACE) project software!
 
 ```
@@ -246,7 +246,7 @@ deployment message list
 #### Network Visualization
 RIB also have a rudimentary network visualization capability. First run:
 ```
-/race_in_the_box/scripts/voa/inspect_links.py | wc -l
+inspect_links.py | wc -l
 ```
 
 
@@ -256,14 +256,14 @@ This pulls data about the current network connectivity graph and processes it in
 
 You can also visualize the paths involved in sending a specific message by running:
 ```
-/race_in_the_box/scripts/voa/pollmsg.py
+pollmsg.py
 ```
 
 <details>
 <summary>Example output</summary>
 
 ```
-202) rib:development:local:basic@code# /race_in_the_box/scripts/voa/pollmsg.py
+202) rib:development:local:basic@code# pollmsg.py
 1
 +------------------+-------------------+-------------------+---------------------+----------------+-------------------------------------------------------------+-----------------------------------------------+
 |     Trace ID     |       Sender      |     Recipient     |       End Time      | Total Time (s) |                          Force URL                          |                   Jaeger URL                  |
@@ -898,6 +898,8 @@ Started All Nodes In Deployment: carma-obfs-ssEmail (local)
 
 </details>
 
+___Be Patient!___ using really-covert indirect channels for client-to-server communications slows messaging down significantly, as does running multiple ML-based steganographic techniques on a single host. For reference, sending a single message between each pair of clients (i.e. 20 messages) took roughly 10 minutes for all messages to be received on a laptop with 32GB of RAM and an 8-core 2.3GHz CPU.
+
 When you are done testing, use the following commands to end the deployment.
 
 ```
@@ -984,11 +986,71 @@ deployment start
 <summary>Example output</summary>
 
 ```
+27783) rib:development:local@code# rib deployment local create --name=prism-snowflake-destiniPixelfed     --linux-client-count=4     --linux-server-count=6     --race-node-arch=x86_64     --android-client-count=1     --android-client-bridge-count=1     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --registry-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main     --android-client-image=ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
+Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
+Using default Android app: core=raceclient-android
+Using default Linux app: core=racetestapp-linux
+Using default Node daemon: core=race-node-daemon
+Creating Local Deployment: prism-snowflake-destiniPixelfed
+WARNING: Plugin SnowflakePluginComms does not contain artifacts for these nodes ['linux_x86_64_client', 'android_x86_64_client', 'android_arm64-v8a_client']
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed/configs/comms/SnowflakePluginComms/snowflake
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed/configs/comms/DestiniPixelfed/destiniPixelfed
+Network manager config gen status: complete, reason: success
+Creating configs archive
+Created configs/etc archives for race-client-00001
+Created configs/etc archives for race-client-00005
+Created configs/etc archives for race-client-00004
+Created configs/etc archives for race-server-00001
+Created configs/etc archives for race-server-00004
+Created configs/etc archives for race-server-00006
+Created configs/etc archives for race-server-00002
+Created configs/etc archives for race-client-00003
+Created configs/etc archives for race-client-00002
+Created configs/etc archives for race-server-00005
+Created configs/etc archives for race-server-00003
+Created Local Deployment: prism-snowflake-destiniPixelfed
+Run `rib-use local prism-snowflake-destiniPixelfed` to enable shortcut commands for this deployment
+27783) rib:development:local@code# rib-use local prism-snowflake-destiniPixelfed
+Using prism-snowflake-destiniPixelfed (local)
+RiB logs will be written to /root/.race/rib/logs/2024-02-12-14-02-07-28231.log
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment up
+
+Using default RiB mode: local
+Using default verbosity: 0
+Standing Up Deployment: prism-snowflake-destiniPixelfed
+Starting deployment services
+Comms (snowflake) Start External Services
+Comms (destiniPixelfed) Start External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Start External Services
+Waiting for 19 containers to stand up.......................done
+Waiting for 10 nodes to stand up...done
+Waiting for services to stand up...done
+Uploading configs archive
+Waiting for 10 nodes to pull configs......done
+Stood Up Deployment: prism-snowflake-destiniPixelfed
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# 
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# # Optional commands if you are using a physical android client
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment bridged android prepare --persona=race-client-00005
+Preparing Android device 712KPCA1259259 to run as race-client-00005
+<Command "/bin/sed -i 's/remote race 1194 udp/remote 192.168.86.243 1194 udp/' /tmp/race.ovpn", pid 28465>: process started
+Prepared Android device 712KPCA1259259 to run as race-client-00005
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment bridged android connect
+Connecting Android device 712KPCA1259259
+Waiting for 1 nodes to connect.......done
+Waiting for 1 nodes to pull configs.......done
+Connected Android device 712KPCA1259259
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# # End optional commands
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# 
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment start
+Starting All Nodes In Deployment: prism-snowflake-destiniPixelfed (local)
+Waiting for 11 nodes to start................................
+Waiting for 1 nodes to start.....done
+Started All Nodes In Deployment: prism-snowflake-destiniPixelfed (local)
 ```
 
 </details>
 
-___Note:___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so __give it a few minutes__ before expecting messages to get through. After the organization has occurred, messages should have 30-90s latencies, although host resource constraints could increase those.
+___Be Patient!___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so __give it a few minutes__ before expecting messages to get through. After the organization has occurred, messages should have 30-90s latencies, although host resource constraints could increase those.
 
 When you are done testing, use the following commands to end the deployment.
 
@@ -1006,6 +1068,31 @@ deployment down
 <summary>Example output</summary>
 
 ```
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment stop
+Stopping All Nodes In Deployment: prism-snowflake-destiniPixelfed (local)
+Waiting for 11 nodes to stop..........done
+Stopped All Nodes In Deployment: prism-snowflake-destiniPixelfed (local)
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# 
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment bridged android disconnect
+Disconnecting Android device 712KPCA1259259
+Waiting for 1 nodes to disconnect............done
+Disconnected Android device 712KPCA1259259
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment bridged android unprepare
+Unpreparing Android device 712KPCA1259259
+Unprepared Android device 712KPCA1259259
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# 
+28231) rib:development:local:prism-snowflake-destiniPixelfed@code# deployment down
+Using default RiB mode: local
+Using default verbosity: 0
+Tearing Down Deployment: prism-snowflake-destiniPixelfed
+Stopping deployment services
+Waiting for 19 containers to tear down...done
+Waiting for 10 nodes to tear down...done
+Comms (snowflake) Stop External Services
+Comms (destiniPixelfed) Stop External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Stop External Services
+Waiting for services to tear down...done
+Tore Down Deployment: prism-snowflake-destiniPixelfed
 ```
 
 </details>
@@ -1091,7 +1178,7 @@ Details:
 As described [above](#jaeger-tracing-visualization), navigating to [http://localhost:16686/](http://localhost:16686/) provides the Jaeger UI for examining OpenTracing data. This allows you to look at different API events occurring on different nodes, can be particularly useful for seeing "breaks" in a distributed event, like a message which reaches a node, claims to be _sent_, but then is never _received_.
 
 ### Network Visualization
-Also described [above](#network-visualization), running the  `/race_in_the_box/scripts/voa/inspect_links.py | wc -l` command and viewing the rendered visualization at [http://localhost:6080]([http://localhost:6080]) can provide information about which nodes are connected to one another and about the overall network state in terms of connectivity.
+Also described [above](#network-visualization), running the  `inspect_links.py | wc -l` command and viewing the rendered visualization at [http://localhost:6080]([http://localhost:6080]) can provide information about which nodes are connected to one another and about the overall network state in terms of connectivity.
 
 ### Logs
 The most detailed but very low-level way to look at a deployment is looking at the log files for the RACE nodes. For linux nodes, these are all volume-mounted into the node containers, and can be viewed at `~/.race/rib/deployments/local/<deployment name>/logs/<node-name>/`. These are very verbose and more appropriate for developer use, see [Developer Documentation](https://github.com/tst-race/race-docs/blob/main/RACE%20developer%20guide.md).
