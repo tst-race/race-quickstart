@@ -28,13 +28,29 @@ Welcome to the quickstart guide for trying out the Resilient Anonymous Communica
 ## What is RACE?
 RACE is an open source project aimed at developing technologies to provide metadata-anonymous, secure, and resilient messaging for users around the world. RACE provides anonymity by routing messages through an overlay network of volunteer servers using cryptographic algorithms that prevent a malicious subset of these servers from determining who is messaging whom. RACE uses specialized networking protocols to prevent connections between individual members of the network from being detected or blocked. RACE is built to run in a dockerized linux environment and on Android devices.
 
+## What is Race-in-the-Box (RIB)?
+RIB is an orchestration framework for making it easy to configure and test different RACE network deployments. RIB manages fetching prebuilt code from repositories, configuring docker containers and networks, creating configuration files, and automating client messaging behavior to facilitate performance and security testing. RIB is _not_ intended to be used for instantiating and running a real-world RACE deployment.
+
 ## What is this Guide?
 This is quick start guide for running a small network of RACE nodes on a personal laptop or server. Running the below commands will download prebuilt RACE code and docker images to run a self-contained overlay network of RACE servers and clients for trying out the RACE software, with the option to include Android clients (either as emulators or physical devices). The network of RACE nodes created (called a _deployment_) is _not_ a simulation, it is a set of docker containers running the actual RACE software; all the nodes just happen to be containers running on a single host. The same software would be run on separate physical machines in a full-scale deployment.
 
-## Resource Requirements
-This guide has been tested on laptops with 32GB of RAM and 6-Core CPUs. If trying to run on lower-resource devices (particularly RAM) some of these test deployments may not run. This is because these test deployments are running _all_ RACE nodes on the host, and does not reflect the resource requirements of a real-world RACE deployment where only a single node would be running on any given host. 
+## Resource and Environment Requirements
+
+#### At-a-Glance:
+* ___CPU:___ 6+ Cores
+* ___RAM:___ 32GB+
+* ___Storage:___ 40GB+
+* ___Software:___
+  - [Docker](https://docs.docker.com/get-docker/)
+  - (optional) [Android Debug Bridge (ADB)](https://www.xda-developers.com/install-adb-windows-macos-linux/)
+  - (optional) Android Device (tested on Android-10/SDK-29)
+
+This guide has been tested on Linux and MacOS laptops (including Apple Silicon) with 32GB of RAM and 6-Core CPUs. If trying to run on lower-resource devices (particularly RAM) some of these test deployments may not run. This is because these test deployments are running _all_ RACE nodes on the host, and does not reflect the resource requirements of a real-world RACE deployment where only a single node would be running on any given host. 
 
 The host system will need about 40GB of free storage for the docker images, software, and deployment logs that are used in this guide.
+
+If using an Android device, the device must be able to successfully connect to your computer (e.g. `adb devices` shows its serial number).
+
 
 ## Environment Setup
 Download and run the Race-in-the-Box (RIB) entrypoint script. This automatically pulls a docker image for orchestrating running local tests of RACE networks. 
@@ -42,20 +58,12 @@ Download and run the Race-in-the-Box (RIB) entrypoint script. This automatically
 ```
 mkdir race-code
 cd race-code
-curl https://raw.githubusercontent.com/tst-race/race-in-the-box/2.6.0/entrypoints/rib_2.6.0.sh?token=GHSAT0AAAAAACDMSZOKKEOOLFUAZIQTFD42ZOTZKEQ -o rib_2.6.0.sh
-bash rib_2.6.0.sh --version=2.6.0-v1 --ui
+curl https://raw.githubusercontent.com/tst-race/race-in-the-box/2.6.0-v1/entrypoints/rib_2.6.0.sh -o rib_2.6.0.sh
+bash rib_2.6.0.sh
 ```
 
 That command pulled and ran a docker image to give you an interactive commandline prompt for the RIB test environment. All the commands below are expected to be run on that prompt inside the RIB container.
 
-___Special pre-release steps___:
-```
-rib github config --access-token=<TOKEN from above> --username=race@twosixtech.com
-rib docker login
-```
-
-### What is Race-in-the-Box (RIB)?
-RIB is an orchestration framework for making it easy to configure and test different RACE network deployments. RIB manages fetching prebuilt code from repositories, configuring docker containers and networks, creating configuration files, and automating client messaging behavior to facilitate performance and security testing. RIB is _not_ intended to be used for instantiating and running a real-world RACE deployment.
 
 
 ## First Deployment
@@ -146,8 +154,10 @@ Stood Up Deployment: basic
 
 </details>
 
-_____Note:_____ Running _up_ the first time will take some time because this is when docker container images are pulled. 
-
+_____Note:_____ Running _up_ the first time will take some time because this is when docker container images are pulled. Most of this is the RACE runtime-linux image which is about 16GB, you can manually pull this outside of RIB to more closely monitor its progress with:
+```
+docker pull ghcr.io/tst-race/race-images/race-runtime-linux:main
+```
 
 ### Android Bridge Device
 _If_ you are including a physical android device in the deployment, then do the following:
