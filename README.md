@@ -154,7 +154,7 @@ _____Note:_____ Running _up_ the first time will take some time because this is 
 ### Android Bridge Device
 _If_ you are including a physical android device in the deployment, then do the following:
 1. Ensure the phone is on the same LAN as your main computer (the phone will connect to a docker container running there).
-2. Plug the phone into the main computer and check that `adb devices` shows the device [Instructions for troubleshooting].
+2. Plug the phone into the main computer and check that `adb devices` shows the device.
 3. Run these additional steps ___after___ `up` has finished. Several pop-up dialogs may appear asking for permissions: this is expected - RACE uses a managed OpenVPN app to connect to the docker network running on the host and automatically installs the RACE app. There is nothing malicious or persistent about what this process installs on the device but _in general_ you should use a dedicated development device and not your personal device for these kinds of activities.
 
 ```
@@ -179,7 +179,9 @@ Connected Android device <YOUR DEVICE SERIAL ID>801KPDT1502330
 
 </details>
 
-___Note:___ If you are having problems, with the _connect_ step failing or hanging forever, it is very likely a network issue. We suggest continuing without the Android client for now, and digging further later using our [Android bridged deployment troubleshooting tips](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/deployment-setup/android-bridged.md).
+___Prepare Failure / Hang:___ If you are having problems with _prepare_ failing or hanging forever, check that `Settings -> USB Preferences -> USE USB FOR` is set to `File transfer` - this appears to be set to `No data transfer` when connecting to OSX hosts in particular and will prevent RIB from automatically installing the RACE daemon and app.
+
+___Connect Failure / Hang:___ If you are having problems with the _connect_ step failing or hanging forever, it is very likely a network issue. We suggest continuing without the Android client for now, and digging further later using our [Android bridged deployment troubleshooting tips](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/deployment-setup/android-bridged.md).
 
 
 
