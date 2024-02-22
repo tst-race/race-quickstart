@@ -1,13 +1,6 @@
 # RACE Quickstart
 Welcome to the quickstart guide for trying out the Resilient Anonymous Communications for Everyone (RACE) project software!
 
-```
-## Pre-Release Preliminaries
-- Create a personal access token (classic) for your github account (Upper-right profile button -> Settings -> Developer Settings -> Personal access tokens -> Tokens (classic) -> Generate new token)
-- The token _needs_ *repo* and *read:packages* permissions
-- Copy and save the generated TOKEN somewhere, it will be needed later.
-- *Note* there will be more explanatory text around the following sections
-```
 
 <!-- toc -->
 
