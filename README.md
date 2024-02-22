@@ -12,7 +12,9 @@ Welcome to the quickstart guide for trying out the Resilient Anonymous Communica
 <!-- toc -->
 
 - [What is RACE?](#what-is-race)
+- [What is Race-in-the-Box (RIB)?](#what-is-race-in-the-box-rib)
 - [What is this Guide?](#what-is-this-guide)
+- [Resource and Environment Requirements](#reseource-and-environment-requirements)
 - [Environment Setup](#environment-setup)
 - [First Deployment](#first-deployment)
 - [Really Anonymous Messaging](#really-anonymous-messaging)
