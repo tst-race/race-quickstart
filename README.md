@@ -72,7 +72,7 @@ That command pulled and ran a docker image to give you an interactive commandlin
 The first deployment will be a small deployment with 4 linux clients, 6 linux servers, and an optional Android client, and uses development exemplar versions of comms and network-manager plugins. 
 
 ### Creating the Deployment
-Running the following commands will pull down prebuilt RACE software, use them to generate initial [configuration files](#what-are-configuration-files), and fetch and run a set of docker containers to run the individual RACE nodes.
+Running the following commands will pull down prebuilt RACE software, use them to generate initial configuration files, and fetch and run a set of docker containers to run the individual RACE nodes.
 
 <details>
 
