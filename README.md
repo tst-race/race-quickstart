@@ -80,7 +80,9 @@ rib deployment local create --name=basic \
     --linux-server-count=6 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
-    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
+    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1
 
 rib-use local basic
 
@@ -362,6 +364,8 @@ rib deployment local create --name=prism \
     --linux-server-count=10 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
+    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism
 
@@ -525,6 +529,8 @@ rib deployment local create --name=carma \
     --linux-server-count=20 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
+    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/
 
@@ -711,6 +717,8 @@ rib deployment local create --name=carma-obfs-ssEmail \
     --linux-server-count=20 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
+    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/ \
     --comms-channel=obfs --comms-kit=tag=2.6.0-v1,repo=race-obfs,org=tst-race \
@@ -975,6 +983,8 @@ rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
+    --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+    --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism \
     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake \
