@@ -41,7 +41,7 @@ This is quick start guide for running a small network of RACE nodes on a persona
   - (optional) [Android Debug Bridge (ADB)](https://www.xda-developers.com/install-adb-windows-macos-linux/)
   - (optional) Android Device (tested on Android-10/SDK-29)
 
-This guide has been tested on Linux and MacOS laptops (including Apple Silicon) with 32GB of RAM and 6-Core CPUs. If trying to run on lower-resource devices (particularly RAM) some of these test deployments may not run. This is because these test deployments are running _all_ RACE nodes on the host, and does not reflect the resource requirements of a real-world RACE deployment where only a single node would be running on any given host. 
+This guide has been tested on Linux, MacOS laptops (including Apple Silicon), and Windows laptops using Windows Subsystem for Linux 2.0 (Ubuntu on Windows) with 32GB of RAM and 6-Core CPUs. If trying to run on lower-resource devices (particularly RAM) some of these test deployments may not run. This is because these test deployments are running _all_ RACE nodes on the host, and does not reflect the resource requirements of a real-world RACE deployment where only a single node would be running on any given host. 
 
 The host system will need about 40GB of free storage for the docker images, software, and deployment logs that are used in this guide.
 
@@ -63,7 +63,7 @@ That command pulled and ran a docker image to give you an interactive commandlin
 
 
 ## First Deployment
-The first deployment will be a small deployment with 4 linux clients, 6 linux servers, and an optional Android client, and uses development exemplar versions of comms and network-manager plugins. 
+The first deployment will be a small deployment with 4 linux clients, 6 linux servers, and an optional Android client (if __not__ using an android device, switch to [this guide](no-android.md#first-deployment)), and uses development exemplar versions of comms and network-manager plugins. 
 
 ### Creating the Deployment
 Running the following commands will pull down prebuilt RACE software, use them to generate initial configuration files, and fetch and run a set of docker containers to run the individual RACE nodes.
@@ -74,6 +74,8 @@ Running the following commands will pull down prebuilt RACE software, use them t
 RACE uses a notion of an initial (or _genesis_) configuration for the entire network that is expressed as a set of coordinated per-node config files. Examples of data in these per-node configs include cryptographic keys and addresses for initial node-to-node connections. RIB automates the creation of these per-node configs by generating or ingesting a [range-config](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/files-images-templates/example-range-config.json) file which represents the network environment (e.g. RACE nodes, their IPs, etc.) and running a [config generation pipeline](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/deployment-setup/configuration-generation.md). While RIB is intended for orchestrating tests and demonstrations, this aspect of configuration generation could be applicable to assisting construction of real-world RACE deployments.
 
 </details>
+
+___If you are NOT using an Android device, continue from [this page](no-android.md#first-deployment)___
 
 ```
 rib deployment local create --name=basic \
@@ -167,6 +169,9 @@ _If_ you are including a physical android device in the deployment, then do the 
 1. Ensure the phone is on the same LAN as your main computer (the phone will connect to a docker container running there).
 2. Plug the phone into the main computer and check that `adb devices` shows the device.
 3. Run these additional steps ___after___ `up` has finished. Several pop-up dialogs may appear asking for permissions: this is expected - RACE uses a managed OpenVPN app to connect to the docker network running on the host and automatically installs the RACE app. There is nothing malicious or persistent about what this process installs on the device but _in general_ you should use a dedicated development device and not your personal device for these kinds of activities.
+
+If you are NOT using an Android device, run `deployment remove` and then continue from [this page](no-android.md#first-deployment)
+
 
 ```
 deployment bridged android prepare --persona=race-client-00005
