@@ -98,6 +98,63 @@ deployment up
 
 
 ```
+212) rib:development:local:basic@code# rib deployment local create --name=basic \
+>     --linux-client-count=4 \
+>     --linux-server-count=6 \
+>     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1
+Using default Network manager kit: core=plugin-network-manager-twosix-cpp
+Using default Comms channels: ('twoSixDirectCpp', 'twoSixIndirectCpp', 'twoSixIndirectBootstrapCpp')
+Using default Comms kits: ('core=plugin-comms-twosix-cpp',)
+Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
+Using default Android app: core=raceclient-android
+Using default Linux app: core=racetestapp-linux
+Using default Node daemon: core=race-node-daemon
+Using default Android client image: ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main
+Using default Registry client image: ghcr.io/tst-race/race-images/race-runtime-linux:main
+Creating Local Deployment: basic
+
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/basic/configs/comms/PluginCommsTwoSixStub/twoSixIndirectCpp
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/basic/configs/comms/PluginCommsTwoSixStub/twoSixDirectCpp
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/basic/configs/comms/PluginCommsTwoSixStub/twoSixIndirectBootstrapCpp
+Network manager config gen status: complete, reason: success
+Creating configs archive
+Created configs/etc archives for race-client-00001
+Created configs/etc archives for race-server-00001
+Created configs/etc archives for race-client-00004
+Created configs/etc archives for race-server-00002
+Created configs/etc archives for race-client-00003
+Created configs/etc archives for race-server-00003
+Created configs/etc archives for race-server-00004
+Created configs/etc archives for race-server-00006
+Created configs/etc archives for race-client-00002
+Created configs/etc archives for race-server-00005
+Created Local Deployment: basic
+Run `rib-use local basic` to enable shortcut commands for this deployment
+212) rib:development:local:basic@code# 
+212) rib:development:local:basic@code# rib-use local basic
+Using basic (local)
+RiB logs will be written to /root/.race/rib/logs/2024-02-23-10-02-21-6269.log
+6269) rib:development:local:basic@code# 
+6269) rib:development:local:basic@code# # This command sets a "profile" for RIB operations to save you entering the deployment name and type each time
+6269) rib:development:local:basic@code# # "local" means a local deployment contained on a single host, as-opposed to an AWS-based deployment
+6269) rib:development:local:basic@code# # "basic" is just the name of this particular deployment, as chosen in the create command above
+6269) rib:development:local:basic@code# 
+6269) rib:development:local:basic@code# deployment up
+Using default RiB mode: local
+Using default verbosity: 0
+Standing Up Deployment: basic
+Starting deployment services
+Comms (twoSixIndirectCpp) Start External Services
+Comms (twoSixIndirectBootstrapCpp) Start External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Start External Services
+Waiting for 19 containers to stand up.......................done
+Waiting for 10 nodes to stand up...done
+Waiting for services to stand up...done
+Uploading configs archive
+Waiting for 10 nodes to pull configs......done
+Stood Up Deployment: basic
 ```
 
 </details>
@@ -119,6 +176,10 @@ deployment start
 <summary>Example output</summary>
 
 ```
+6269) rib:development:local:basic@code# deployment start
+Starting All Nodes In Deployment: basic (local)
+Waiting for 10 nodes to start.......done
+Started All Nodes In Deployment: basic (local)
 ```
 
 </details>
@@ -162,11 +223,23 @@ deployment message list
 <summary>Example output</summary>
 
 ```
-202) rib:development:local:basic@code# deployment message list
+6269) rib:development:local:basic@code# deployment message list
 +------------------+---------+------+-------------------+-------------------+----------+---------------------+---------------------+----------------+
 |     Trace ID     | Test ID | Size |       Sender      |     Recipient     |  Status  |      Start Time     |       End Time      | Total Time (s) |
 +------------------+---------+------+-------------------+-------------------+----------+---------------------+---------------------+----------------+
-| de49144dc5ef7caf | default |  14  | race-client-00001 | race-client-00002 | received | 2024-01-17 15:29:41 | 2024-01-17 15:29:42 |    0.857001    |
+| 091fa960c7fdc04d |  Hello  |  26  | race-client-00001 | race-client-00004 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.720529    |
+| 0b6fa87f7b22566d |         |  6   | race-client-00001 | race-client-00002 | received | 2024-02-23 17:42:12 | 2024-02-23 17:42:13 |    1.052256    |
+| 18824fd67e00b19d |  Hello  |  26  | race-client-00004 | race-client-00001 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.721441    |
+| 27f45280bfdbd601 |  Hello  |  26  | race-client-00001 | race-client-00003 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.723083    |
+| 334349ac35a45f1b |  Hello  |  26  | race-client-00003 | race-client-00004 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.719287    |
+| 3413125dd6d44d8c |  Hello  |  26  | race-client-00002 | race-client-00003 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.723765    |
+| 53ab7e35200f644b |  Hello  |  26  | race-client-00004 | race-client-00003 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.721542    |
+| 59d058459c196d6a |  Hello  |  26  | race-client-00002 | race-client-00004 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.721362    |
+| 6093fac89424acf2 |  Hello  |  26  | race-client-00001 | race-client-00002 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.719675    |
+| 6b8a932fb23f4509 |  Hello  |  26  | race-client-00002 | race-client-00001 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.720083    |
+| d3e5665a24a276d6 |  Hello  |  26  | race-client-00004 | race-client-00002 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.723224    |
+| f105385ba67110aa |  Hello  |  26  | race-client-00003 | race-client-00001 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.720974    |
+| f9f996daee06f5d1 |  Hello  |  26  | race-client-00003 | race-client-00002 | received | 2024-02-23 17:42:04 | 2024-02-23 17:42:05 |    1.722599    |
 +------------------+---------+------+-------------------+-------------------+----------+---------------------+---------------------+----------------+
 ```
 
@@ -193,12 +266,25 @@ pollmsg.py
 <summary>Example output</summary>
 
 ```
-202) rib:development:local:basic@code# pollmsg.py
-1
+6269) rib:development:local:basic@code# pollmsg.py
+
+13
 +------------------+-------------------+-------------------+---------------------+----------------+-------------------------------------------------------------+-----------------------------------------------+
 |     Trace ID     |       Sender      |     Recipient     |       End Time      | Total Time (s) |                          Force URL                          |                   Jaeger URL                  |
 +------------------+-------------------+-------------------+---------------------+----------------+-------------------------------------------------------------+-----------------------------------------------+
-| de49144dc5ef7caf | race-client-00001 | race-client-00002 | 2024-01-17 15:29:42 |    0.857001    | http://localhost:6080/?collapse=true&trace=de49144dc5ef7caf | http://localhost:16686/trace/de49144dc5ef7caf |
+| 0b6fa87f7b22566d | race-client-00001 | race-client-00002 | 2024-02-23 17:42:13 |    1.052256    | http://localhost:6080/?collapse=true&trace=0b6fa87f7b22566d | http://localhost:16686/trace/0b6fa87f7b22566d |
+| f9f996daee06f5d1 | race-client-00003 | race-client-00002 | 2024-02-23 17:42:05 |    1.722599    | http://localhost:6080/?collapse=true&trace=f9f996daee06f5d1 | http://localhost:16686/trace/f9f996daee06f5d1 |
+| f105385ba67110aa | race-client-00003 | race-client-00001 | 2024-02-23 17:42:05 |    1.720974    | http://localhost:6080/?collapse=true&trace=f105385ba67110aa | http://localhost:16686/trace/f105385ba67110aa |
+| d3e5665a24a276d6 | race-client-00004 | race-client-00002 | 2024-02-23 17:42:05 |    1.723224    | http://localhost:6080/?collapse=true&trace=d3e5665a24a276d6 | http://localhost:16686/trace/d3e5665a24a276d6 |
+| 6b8a932fb23f4509 | race-client-00002 | race-client-00001 | 2024-02-23 17:42:05 |    1.720083    | http://localhost:6080/?collapse=true&trace=6b8a932fb23f4509 | http://localhost:16686/trace/6b8a932fb23f4509 |
+| 6093fac89424acf2 | race-client-00001 | race-client-00002 | 2024-02-23 17:42:05 |    1.719675    | http://localhost:6080/?collapse=true&trace=6093fac89424acf2 | http://localhost:16686/trace/6093fac89424acf2 |
+| 59d058459c196d6a | race-client-00002 | race-client-00004 | 2024-02-23 17:42:05 |    1.721362    | http://localhost:6080/?collapse=true&trace=59d058459c196d6a | http://localhost:16686/trace/59d058459c196d6a |
+| 53ab7e35200f644b | race-client-00004 | race-client-00003 | 2024-02-23 17:42:05 |    1.721542    | http://localhost:6080/?collapse=true&trace=53ab7e35200f644b | http://localhost:16686/trace/53ab7e35200f644b |
+| 3413125dd6d44d8c | race-client-00002 | race-client-00003 | 2024-02-23 17:42:05 |    1.723765    | http://localhost:6080/?collapse=true&trace=3413125dd6d44d8c | http://localhost:16686/trace/3413125dd6d44d8c |
+| 334349ac35a45f1b | race-client-00003 | race-client-00004 | 2024-02-23 17:42:05 |    1.719287    | http://localhost:6080/?collapse=true&trace=334349ac35a45f1b | http://localhost:16686/trace/334349ac35a45f1b |
+| 27f45280bfdbd601 | race-client-00001 | race-client-00003 | 2024-02-23 17:42:05 |    1.723083    | http://localhost:6080/?collapse=true&trace=27f45280bfdbd601 | http://localhost:16686/trace/27f45280bfdbd601 |
+| 18824fd67e00b19d | race-client-00004 | race-client-00001 | 2024-02-23 17:42:05 |    1.721441    | http://localhost:6080/?collapse=true&trace=18824fd67e00b19d | http://localhost:16686/trace/18824fd67e00b19d |
+| 091fa960c7fdc04d | race-client-00001 | race-client-00004 | 2024-02-23 17:42:05 |    1.720529    | http://localhost:6080/?collapse=true&trace=091fa960c7fdc04d | http://localhost:16686/trace/091fa960c7fdc04d |
 +------------------+-------------------+-------------------+---------------------+----------------+-------------------------------------------------------------+-----------------------------------------------+
 ```
 
@@ -229,6 +315,23 @@ deployment down
 <summary>Example output</summary>
 
 ```
+6269) rib:development:local:basic@code# deployment stop
+Stopping All Nodes In Deployment: basic (local)
+Waiting for 10 nodes to stop.........done
+Stopped All Nodes In Deployment: basic (local)
+6269) rib:development:local:basic@code# 
+6269) rib:development:local:basic@code# deployment down
+Using default RiB mode: local
+Using default verbosity: 0
+Tearing Down Deployment: basic
+Stopping deployment services
+Waiting for 19 containers to tear down...done
+Waiting for 10 nodes to tear down...done
+Comms (twoSixIndirectCpp) Stop External Services
+Comms (twoSixIndirectBootstrapCpp) Stop External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Stop External Services
+Waiting for services to tear down...done
+Tore Down Deployment: basic
 ```
 
 </details>
@@ -258,6 +361,66 @@ deployment start
 <summary>Example output</summary>
 
 ```
+6269) rib:development:local:basic@code# rib deployment local create --name=prism \
+>     --linux-client-count=4 \
+>     --linux-server-count=10 \
+>     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
+>     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism
+Using default Comms channels: ('twoSixDirectCpp', 'twoSixIndirectCpp', 'twoSixIndirectBootstrapCpp')
+Using default Comms kits: ('core=plugin-comms-twosix-cpp',)
+Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
+Using default Android app: core=raceclient-android
+Using default Linux app: core=racetestapp-linux
+Using default Node daemon: core=race-node-daemon
+Using default Android client image: ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main
+Using default Registry client image: ghcr.io/tst-race/race-images/race-runtime-linux:main
+Creating Local Deployment: prism
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism/configs/comms/PluginCommsTwoSixStub/twoSixIndirectBootstrapCpp
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism/configs/comms/PluginCommsTwoSixStub/twoSixDirectCpp
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism/configs/comms/PluginCommsTwoSixStub/twoSixIndirectCpp
+Network manager config gen status: complete, reason: success
+Creating configs archive
+Created configs/etc archives for race-server-00010
+Created configs/etc archives for race-server-00002
+Created configs/etc archives for race-server-00007
+Created configs/etc archives for race-server-00001
+Created configs/etc archives for race-client-00001
+Created configs/etc archives for race-client-00003
+Created configs/etc archives for race-server-00009
+Created configs/etc archives for race-server-00006
+Created configs/etc archives for race-server-00004
+Created configs/etc archives for race-client-00004
+Created configs/etc archives for race-client-00002
+Created configs/etc archives for race-server-00003
+Created configs/etc archives for race-server-00005
+Created configs/etc archives for race-server-00008
+Created Local Deployment: prism
+Run `rib-use local prism` to enable shortcut commands for this deployment
+6269) rib:development:local:basic@code# 
+6269) rib:development:local:basic@code# rib-use local prism
+Using prism (local)
+RiB logs will be written to /root/.race/rib/logs/2024-02-23-10-02-21-7133.log
+7133) rib:development:local:prism@code# deployment up
+Using default RiB mode: local
+Using default verbosity: 0
+Standing Up Deployment: prism
+Starting deployment services
+Comms (twoSixIndirectBootstrapCpp) Start External Services
+Comms (twoSixIndirectCpp) Start External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Start External Services
+Waiting for 23 containers to stand up.......................done
+Waiting for 14 nodes to stand up...done
+Waiting for services to stand up...done
+Uploading configs archive
+Waiting for 14 nodes to pull configs......done
+Stood Up Deployment: prism
+7133) rib:development:local:prism@code# 
+7133) rib:development:local:prism@code# deployment start
+Starting All Nodes In Deployment: prism (local)
+Waiting for 14 nodes to start.....done
+Started All Nodes In Deployment: prism (local)
 ```
 
 </details>
@@ -286,6 +449,23 @@ deployment down
 <summary>Example output</summary>
 
 ```
+7133) rib:development:local:prism@code# deployment stop
+Stopping All Nodes In Deployment: prism (local)
+Waiting for 14 nodes to stop............done
+Stopped All Nodes In Deployment: prism (local)
+7133) rib:development:local:prism@code# 
+7133) rib:development:local:prism@code# deployment down
+Using default RiB mode: local
+Using default verbosity: 0
+Tearing Down Deployment: prism
+Stopping deployment services
+Waiting for 23 containers to tear down...done
+Waiting for 14 nodes to tear down...done
+Comms (twoSixIndirectBootstrapCpp) Stop External Services
+Comms (twoSixIndirectCpp) Stop External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Stop External Services
+Waiting for services to tear down...done
+Tore Down Deployment: prism
 ```
 
 </details>
@@ -312,6 +492,76 @@ deployment start
 <summary>Example output</summary>
 
 ```
+7133) rib:development:local:prism@code# rib deployment local create --name=carma \
+>     --linux-client-count=4 \
+>     --linux-server-count=20 \
+>     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
+>     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/
+Using default Comms channels: ('twoSixDirectCpp', 'twoSixIndirectCpp', 'twoSixIndirectBootstrapCpp')
+Using default Comms kits: ('core=plugin-comms-twosix-cpp',)
+Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
+Using default Android app: core=raceclient-android
+Using default Linux app: core=racetestapp-linux
+Using default Node daemon: core=race-node-daemon
+Using default Android client image: ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main
+Using default Registry client image: ghcr.io/tst-race/race-images/race-runtime-linux:main
+Creating Local Deployment: carma
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/carma/configs/comms/PluginCommsTwoSixStub/twoSixDirectCpp
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/carma/configs/comms/PluginCommsTwoSixStub/twoSixIndirectBootstrapCpp
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/carma/configs/comms/PluginCommsTwoSixStub/twoSixIndirectCpp
+Network manager config gen status: complete, reason: success
+Creating configs archive
+Created configs/etc archives for race-server-00016
+Created configs/etc archives for race-server-00008
+Created configs/etc archives for race-server-00014
+Created configs/etc archives for race-server-00020
+Created configs/etc archives for race-server-00013
+Created configs/etc archives for race-server-00002
+Created configs/etc archives for race-client-00002
+Created configs/etc archives for race-server-00006
+Created configs/etc archives for race-server-00011
+Created configs/etc archives for race-server-00005
+Created configs/etc archives for race-server-00019
+Created configs/etc archives for race-server-00007
+Created configs/etc archives for race-server-00017
+Created configs/etc archives for race-client-00003
+Created configs/etc archives for race-server-00018
+Created configs/etc archives for race-client-00001
+Created configs/etc archives for race-server-00009
+Created configs/etc archives for race-server-00010
+Created configs/etc archives for race-server-00004
+Created configs/etc archives for race-client-00004
+Created configs/etc archives for race-server-00001
+Created configs/etc archives for race-server-00012
+Created configs/etc archives for race-server-00003
+Created configs/etc archives for race-server-00015
+Created Local Deployment: carma
+Run `rib-use local carma` to enable shortcut commands for this deployment
+7133) rib:development:local:prism@code# 
+7133) rib:development:local:prism@code# rib-use local carma
+Using carma (local)
+RiB logs will be written to /root/.race/rib/logs/2024-02-23-10-02-21-7949.log
+7949) rib:development:local:carma@code# deployment up
+Using default RiB mode: local
+Using default verbosity: 0
+Standing Up Deployment: carma
+Starting deployment services
+Comms (twoSixIndirectBootstrapCpp) Start External Services
+Comms (twoSixIndirectCpp) Start External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Start External Services
+Waiting for 33 containers to stand up........................done
+Waiting for 24 nodes to stand up...done
+Waiting for services to stand up...done
+Uploading configs archive
+Waiting for 24 nodes to pull configs......done
+Stood Up Deployment: carma
+7949) rib:development:local:carma@code# 
+7949) rib:development:local:carma@code# deployment start
+Starting All Nodes In Deployment: carma (local)
+Waiting for 24 nodes to start......done
+Started All Nodes In Deployment: carma (local)
 ```
 
 </details>
@@ -340,6 +590,24 @@ deployment down
 <summary>Example output</summary>
 
 ```
+7949) rib:development:local:carma@code# deployment stop
+Stopping All Nodes In Deployment: carma (local)
+Waiting for 24 nodes to stop....
+.......done
+Stopped All Nodes In Deployment: carma (local)
+7949) rib:development:local:carma@code# 
+7949) rib:development:local:carma@code# deployment down
+Using default RiB mode: local
+Using default verbosity: 0
+Tearing Down Deployment: carma
+Stopping deployment services
+Waiting for 33 containers to tear down...done
+Waiting for 24 nodes to tear down...done
+Comms (twoSixIndirectBootstrapCpp) Stop External Services
+Comms (twoSixIndirectCpp) Stop External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Stop External Services
+Waiting for services to tear down...done
+Tore Down Deployment: carma
 ```
 
 </details>
@@ -380,6 +648,149 @@ deployment start
 <summary>Example output</summary>
 
 ```
+7949) rib:development:local:carma@code# rib deployment local create --name=carma-obfs-ssEmail \
+>     --linux-client-count=4 \
+>     --linux-server-count=20 \
+>     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
+>     --network-manager-kit=tag=https://github.com/tst-race/race-carma/releases/tag/2.6.0-v1/ \
+>     --comms-channel=obfs --comms-kit=tag=2.6.0-v1,repo=race-obfs,org=tst-race \
+>     --comms-channel=ssEmail --comms-kit=tag=2.6.0-v1,repo=race-semanticsteg,org=tst-race
+
+Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
+Using default Android app: core=raceclient-android
+Using default Linux app: core=racetestapp-linux
+Using default Node daemon: core=race-node-daemon
+Using default Android client image: ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main
+Using default Registry client image: ghcr.io/tst-race/race-images/race-runtime-linux:main
+Creating Local Deployment: carma-obfs-ssEmail
+WARNING: Plugin PluginObfs does not contain artifacts for these nodes ['linux_x86_64_client']
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+warning: 2024/02/23 17:49:52 generating new server config
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/comms/PluginObfs/obfs
+warning: [2024-02-23 17:49:52,455][line 869][get_args][DEBUG] : Ensuring range /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/race-config.json exists
+warning: [2024-02-23 17:49:52,456][line 873][get_args][DEBUG] : Ensuring network-manager-request /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/network-manager/carma/network-manager-request.json exists
+warning: [2024-02-23 17:49:52,456][line 879][get_args][INFO] : config-dir /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/comms/PluginSemanticSteg doesn't exist ; creating it now
+warning: [2024-02-23 17:49:52,456][line 100][main][INFO] : Starting Process To Generate RACE Plugin Config
+warning: [2024-02-23 17:49:52,456][line 102][main][INFO] : -
+warning: Copying channel_properties.json to correct directory
+warning: -
+warning: [2024-02-23 17:49:52,456][line 121][main][INFO] : -
+warning: Generating link profile configs
+warning: -
+warning: [2024-02-23 17:49:52,456][line 476][generate_link_profile_configs][INFO] : Getting range.json for RACE Link Profile Configs
+warning: [2024-02-23 17:49:52,456][line 486][generate_link_profile_configs][INFO] : Reading network manager requests from /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/network-manager/carma/network-manager-request.json
+warning: [2024-02-23 17:49:52,456][line 575][generate_link_profile_configs][DEBUG] : race_configs name: carma-obfs-ssEmail
+warning: [2024-02-23 17:49:52,456][line 576][generate_link_profile_configs][DEBUG] : race_configs bastion: {}
+warning: [2024-02-23 17:49:52,456][line 577][generate_link_profile_configs][DEBUG] : race_configs: 24 nodes
+warning: [2024-02-23 17:49:52,456][line 578][generate_link_profile_configs][DEBUG] : race_configs: 1 enclaves
+warning: [2024-02-23 17:49:52,456][line 579][generate_link_profile_configs][DEBUG] : race_configs services: 
+warning: []
+warning: [2024-02-23 17:49:52,456][line 584][generate_link_profile_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 3 of 4
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-server-00010'] to race-client-00001's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 3 of 8
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-client-00004'] to race-server-00001's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 2 of 8
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-client-00003'] to race-server-00001's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 1 of 8
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-client-00002'] to race-server-00001's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 3 of 8
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-client-00004'] to race-server-00010's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 2 of 8
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-client-00003'] to race-server-00010's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 1 of 8
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-client-00002'] to race-server-00010's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 3 of 4
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-server-00010'] to race-client-00002's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 3 of 4
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-server-00010'] to race-client-00003's creator personas
+warning: [2024-02-23 17:49:52,457][line 664][generate_link_profile_configs][DEBUG] : Deleting index 3 of 4
+warning: [2024-02-23 17:49:52,457][line 678][generate_link_profile_configs][DEBUG] : Adding ['race-server-00010'] to race-client-00004's creator personas
+warning: [2024-02-23 17:49:52,457][line 686][generate_link_profile_configs][INFO] : GENERATED 32 LINK-PROFILES
+warning: [2024-02-23 17:49:52,457][line 687][generate_link_profile_configs][INFO] : DELETED (combined) 10 LINK-PROFILES
+warning: [2024-02-23 17:49:52,457][line 702][generate_user_responses_configs][INFO] : Getting range.json for RACE Link Profile Configs
+warning: [2024-02-23 17:49:52,457][line 709][generate_user_responses_configs][DEBUG] : RACE_nodes: 24 nodes
+warning: [2024-02-23 17:49:52,457][line 717][generate_user_responses_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
+warning: [2024-02-23 17:49:52,459][line 126][main][INFO] : -
+warning: Done generating link profile configs. Storing RACE genesis-link-addresses in /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+warning: -
+warning: [2024-02-23 17:49:52,459][line 147][main][INFO] : -
+warning: Done storing link profile configs. Storing fulfilled network manager requests in /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+warning: -
+warning: [2024-02-23 17:49:52,460][line 162][main][INFO] : -
+warning: Process To Generate RACE genesis-link-addresses.json Complete
+warning: -
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/carma-obfs-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+Network manager config gen status: complete, reason: success
+Creating configs archive
+Created configs/etc archives for race-server-00015
+Created configs/etc archives for race-server-00019
+Created configs/etc archives for race-client-00001
+Created configs/etc archives for race-server-00012
+Created configs/etc archives for race-server-00014
+Created configs/etc archives for race-server-00007
+Created configs/etc archives for race-server-00017
+Created configs/etc archives for race-server-00016
+Created configs/etc archives for race-server-00020
+Created configs/etc archives for race-server-00013
+Created configs/etc archives for race-client-00004
+Created configs/etc archives for race-server-00009
+Created configs/etc archives for race-client-00003
+Created configs/etc archives for race-server-00001
+Created configs/etc archives for race-server-00004
+Created configs/etc archives for race-server-00010
+Created configs/etc archives for race-server-00018
+Created configs/etc archives for race-server-00011
+Created configs/etc archives for race-server-00006
+Created configs/etc archives for race-server-00002
+Created configs/etc archives for race-server-00008
+Created configs/etc archives for race-server-00003
+Created configs/etc archives for race-client-00002
+Created configs/etc archives for race-server-00005
+Created Local Deployment: carma-obfs-ssEmail
+Run `rib-use local carma-obfs-ssEmail` to enable shortcut commands for this deployment
+7949) rib:development:local:carma@code#     
+7949) rib:development:local:carma@code# rib-use local carma-obfs-ssEmail
+Using carma-obfs-ssEmail (local)
+RiB logs will be written to /root/.race/rib/logs/2024-02-23-10-02-21-8741.log
+8741) rib:development:local:carma-obfs-ssEmail@code# deployment up
+Using default RiB mode: local
+Using default verbosity: 0
+Standing Up Deployment: carma-obfs-ssEmail
+Starting deployment services
+Comms (ssEmail) Start External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Start External Services
+Waiting for 33 containers to stand up.....	`...................done
+Waiting for 24 nodes to stand up...done
+Waiting for services to stand up...done
+Uploading configs archive
+Waiting for 24 nodes to pull configs......done
+Stood Up Deployment: carma-obfs-ssEmail
+8741) rib:development:local:carma-obfs-ssEmail@code# 
+8741) rib:development:local:carma-obfs-ssEmail@code# deployment start
+Starting All Nodes In Deployment: carma-obfs-ssEmail (local)
+Waiting for 24 nodes to start........done
+Started All Nodes In Deployment: carma-obfs-ssEmail (local)
 ```
 
 
@@ -408,6 +819,23 @@ deployment down
 
 
 ```
+8741) rib:development:local:carma-obfs-ssEmail@code# deployment stop
+Stopping All Nodes In Deployment: carma-obfs-ssEmail (local)
+
+Waiting for 24 nodes to stop..........done
+Stopped All Nodes In Deployment: carma-obfs-ssEmail (local)
+8741) rib:development:local:carma-obfs-ssEmail@code# 
+8741) rib:development:local:carma-obfs-ssEmail@code# deployment down
+Using default RiB mode: local
+Using default verbosity: 0
+Tearing Down Deployment: carma-obfs-ssEmail
+Stopping deployment services
+Waiting for 33 containers to tear down...done
+Waiting for 24 nodes to tear down...done
+Comms (ssEmail) Stop External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Stop External Services
+Waiting for services to tear down...done
+Tore Down Deployment: carma-obfs-ssEmail
 ```
 
 </details>
@@ -448,7 +876,154 @@ deployment start
 <summary>Example output</summary>
 
 ```
+8741) rib:development:local:carma-obfs-ssEmail@code# rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
+>     --linux-client-count=4 \
+>     --linux-server-count=6 \
+>     --race-node-arch=x86_64 \
+>     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
+>     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
+>     --network-manager-kit=tag=2.6.0-v1,org=tst-race,repo=race-prism \
+>     --comms-channel=snowflake --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-snowflake \
+>     --comms-channel=ssEmail --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-semanticsteg \
+>     --comms-channel=destiniPixelfed --comms-kit=tag=2.6.0-v1,org=tst-race,repo=race-destini,asset=race-destini-pixelfed.tar.gz
+Using default Artifact manager kits: ('core=plugin-artifact-manager-twosix-cpp-local', 'core=plugin-artifact-manager-twosix-cpp')
+Using default Android app: core=raceclient-android
+Using default Linux app: core=racetestapp-linux
+Using default Node daemon: core=race-node-daemon
+Using default Android client image: ghcr.io/tst-race/race-images/race-runtime-android-x86_64:main
+Using default Registry client image: ghcr.io/tst-race/race-images/race-runtime-linux:main
+Creating Local Deployment: prism-snowflake-destiniPixelfed-ssEmail
+WARNING: Plugin SnowflakePluginComms does not contain artifacts for these nodes ['linux_x86_64_client']
+
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/SnowflakePluginComms/snowflake
+warning: [2024-02-23 17:54:01,703][line 869][get_args][DEBUG] : Ensuring range /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/race-config.json exists
+warning: [2024-02-23 17:54:01,703][line 873][get_args][DEBUG] : Ensuring network-manager-request /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json exists
+warning: [2024-02-23 17:54:01,703][line 879][get_args][INFO] : config-dir /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg doesn't exist ; creating it now
+warning: [2024-02-23 17:54:01,703][line 100][main][INFO] : Starting Process To Generate RACE Plugin Config
+warning: [2024-02-23 17:54:01,703][line 102][main][INFO] : -
+warning: Copying channel_properties.json to correct directory
+warning: -
+warning: [2024-02-23 17:54:01,703][line 121][main][INFO] : -
+warning: Generating link profile configs
+warning: -
+warning: [2024-02-23 17:54:01,703][line 476][generate_link_profile_configs][INFO] : Getting range.json for RACE Link Profile Configs
+warning: [2024-02-23 17:54:01,703][line 486][generate_link_profile_configs][INFO] : Reading network manager requests from /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json
+warning: [2024-02-23 17:54:01,703][line 575][generate_link_profile_configs][DEBUG] : race_configs name: prism-snowflake-destiniPixelfed-ssEmail
+warning: [2024-02-23 17:54:01,703][line 576][generate_link_profile_configs][DEBUG] : race_configs bastion: {}
+warning: [2024-02-23 17:54:01,703][line 577][generate_link_profile_configs][DEBUG] : race_configs: 10 nodes
+warning: [2024-02-23 17:54:01,703][line 578][generate_link_profile_configs][DEBUG] : race_configs: 1 enclaves
+warning: [2024-02-23 17:54:01,703][line 579][generate_link_profile_configs][DEBUG] : race_configs services: 
+warning: []
+warning: [2024-02-23 17:54:01,703][line 584][generate_link_profile_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
+warning: [2024-02-23 17:54:01,703][line 686][generate_link_profile_configs][INFO] : GENERATED 0 LINK-PROFILES
+warning: [2024-02-23 17:54:01,703][line 687][generate_link_profile_configs][INFO] : DELETED (combined) 0 LINK-PROFILES
+warning: [2024-02-23 17:54:01,703][line 702][generate_user_responses_configs][INFO] : Getting range.json for RACE Link Profile Configs
+warning: [2024-02-23 17:54:01,703][line 709][generate_user_responses_configs][DEBUG] : RACE_nodes: 10 nodes
+warning: [2024-02-23 17:54:01,703][line 717][generate_user_responses_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
+warning: [2024-02-23 17:54:01,705][line 126][main][INFO] : -
+warning: Done generating link profile configs. Storing RACE genesis-link-addresses in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+warning: -
+warning: [2024-02-23 17:54:01,705][line 147][main][INFO] : -
+warning: Done storing link profile configs. Storing fulfilled network manager requests in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+warning: -
+warning: [2024-02-23 17:54:01,705][line 162][main][INFO] : -
+warning: Process To Generate RACE genesis-link-addresses.json Complete
+warning: -
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/DestiniPixelfed/destiniPixelfed
+Network manager config gen status: complete, reason: success
+Creating configs archive
+Created configs/etc archives for race-client-00004
+Created configs/etc archives for race-client-00002
+Created configs/etc archives for race-client-00001
+Created configs/etc archives for race-server-00001
+Created configs/etc archives for race-server-00002
+Created configs/etc archives for race-server-00005
+Created configs/etc archives for race-server-00006
+Created configs/etc archives for race-client-00003
+Created configs/etc archives for race-server-00003
+Created configs/etc archives for race-server-00004
+Created Local Deployment: prism-snowflake-destiniPixelfed-ssEmail
+Run `rib-use local prism-snowflake-destiniPixelfed-ssEmail` to enable shortcut commands for this deployment
+8741) rib:development:local:carma-obfs-ssEmail@code# 
+8741) rib:development:local:carma-obfs-ssEmail@code# rib-use local prism-snowflake-destiniPixelfed-ssEmail
+Using prism-snowflake-destiniPixelfed-ssEmail (local)
+RiB logs will be written to /root/.race/rib/logs/2024-02-23-10-02-21-9233.log
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# 
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment config generate --network-manager-custom-args="-TssEmail=uplink,epoch -TdestiniPixelfed=ark,downlink" --force
+Generating configs for deployment prism-snowflake-destiniPixelfed-ssEmail (local)
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/SnowflakePluginComms/snowflake
+warning: [2024-02-23 17:54:03,922][line 869][get_args][DEBUG] : Ensuring range /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/race-config.json exists
+warning: [2024-02-23 17:54:03,922][line 873][get_args][DEBUG] : Ensuring network-manager-request /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json exists
+warning: [2024-02-23 17:54:03,922][line 879][get_args][INFO] : config-dir /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg doesn't exist ; creating it now
+warning: [2024-02-23 17:54:03,922][line 100][main][INFO] : Starting Process To Generate RACE Plugin Config
+warning: [2024-02-23 17:54:03,922][line 102][main][INFO] : -
+warning: Copying channel_properties.json to correct directory
+warning: -
+warning: [2024-02-23 17:54:03,923][line 121][main][INFO] : -
+warning: Generating link profile configs
+warning: -
+warning: [2024-02-23 17:54:03,923][line 476][generate_link_profile_configs][INFO] : Getting range.json for RACE Link Profile Configs
+warning: [2024-02-23 17:54:03,923][line 486][generate_link_profile_configs][INFO] : Reading network manager requests from /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/network-manager/prism/network-manager-request.json
+warning: [2024-02-23 17:54:03,923][line 575][generate_link_profile_configs][DEBUG] : race_configs name: prism-snowflake-destiniPixelfed-ssEmail
+warning: [2024-02-23 17:54:03,923][line 576][generate_link_profile_configs][DEBUG] : race_configs bastion: {}
+warning: [2024-02-23 17:54:03,923][line 577][generate_link_profile_configs][DEBUG] : race_configs: 10 nodes
+warning: [2024-02-23 17:54:03,923][line 578][generate_link_profile_configs][DEBUG] : race_configs: 1 enclaves
+warning: [2024-02-23 17:54:03,923][line 579][generate_link_profile_configs][DEBUG] : race_configs services: 
+warning: []
+warning: [2024-02-23 17:54:03,923][line 584][generate_link_profile_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
+warning: [2024-02-23 17:54:03,923][line 686][generate_link_profile_configs][INFO] : GENERATED 0 LINK-PROFILES
+warning: [2024-02-23 17:54:03,923][line 687][generate_link_profile_configs][INFO] : DELETED (combined) 0 LINK-PROFILES
+warning: [2024-02-23 17:54:03,923][line 702][generate_user_responses_configs][INFO] : Getting range.json for RACE Link Profile Configs
+warning: [2024-02-23 17:54:03,923][line 709][generate_user_responses_configs][DEBUG] : RACE_nodes: 10 nodes
+warning: [2024-02-23 17:54:03,923][line 717][generate_user_responses_configs][DEBUG] : STARTING COVER-SERVICE LOOPS WITH PXFD_INDEX 0, SFTP_INDEX 1, EMAIL_INDEX 2, NODE_PXFD_INDEX 0, NODE_SFTP_INDEX 1, NODE_EMAIL_INDEX 2
+warning: [2024-02-23 17:54:03,925][line 126][main][INFO] : -
+warning: Done generating link profile configs. Storing RACE genesis-link-addresses in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+warning: -
+warning: [2024-02-23 17:54:03,926][line 147][main][INFO] : -
+warning: Done storing link profile configs. Storing fulfilled network manager requests in /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+warning: -
+warning: [2024-02-23 17:54:03,926][line 162][main][INFO] : -
+warning: Process To Generate RACE genesis-link-addresses.json Complete
+warning: -
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/PluginSemanticSteg/ssEmail
+Got genesis-link-addresses for channel /root/.race/rib/deployments/local/prism-snowflake-destiniPixelfed-ssEmail/configs/comms/DestiniPixelfed/destiniPixelfed
+Network manager config gen status: complete, reason: success
+Creating configs archive
+Created configs/etc archives for race-server-00005
+Created configs/etc archives for race-client-00001
+Created configs/etc archives for race-server-00002
+Created configs/etc archives for race-server-00003
+Created configs/etc archives for race-client-00002
+Created configs/etc archives for race-server-00004
+Created configs/etc archives for race-server-00006
+Created configs/etc archives for race-client-00004
+Created configs/etc archives for race-client-00003
+Created configs/etc archives for race-server-00001
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# 
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment up
+Using default RiB mode: local
+Using default verbosity: 0
+Standing Up Deployment: prism-snowflake-destiniPixelfed-ssEmail
+Starting deployment services
+Comms (snowflake) Start External Services
+Comms (ssEmail) Start External Services
+Comms (destiniPixelfed) Start External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Start External Services
+Waiting for 19 containers to stand up.......................done
+Waiting for 10 nodes to stand up...done
+Waiting for services to stand up...done
+Uploading configs archive
+Waiting for 10 nodes to pull configs......done
+Stood Up Deployment: prism-snowflake-destiniPixelfed-ssEmail
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# 
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment start
+Starting All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
+Waiting for 10 nodes to start........done
+Started All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
 ```
+</details>
 
 ___Be Patient!___ Prism's self-organizing behavior takes a bit longer when using stealthy channels, so __give it a few minutes__ (roughly 5 minutes, depending on host resources) before expecting messages to get through. After the organization has occurred, messages should have 30-90s latencies, although host resource constraints could increase those.
 
@@ -479,6 +1054,27 @@ deployment down
 <summary>Example output</summary>
 
 ```
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment stop
+Stopping All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
+Waiting for 10 nodes to stop.......
+.........................
+Waiting for 2 nodes to stop..........done
+Stopped All Nodes In Deployment: prism-snowflake-destiniPixelfed-ssEmail (local)
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# 
+9233) rib:development:local:prism-snowflake-destiniPixelfed-ssEmail@code# deployment down
+
+Using default RiB mode: local
+Using default verbosity: 0
+Tearing Down Deployment: prism-snowflake-destiniPixelfed-ssEmail
+Stopping deployment services
+Waiting for 19 containers to tear down...done
+Waiting for 10 nodes to tear down...done
+Comms (snowflake) Stop External Services
+Comms (ssEmail) Stop External Services
+Comms (destiniPixelfed) Stop External Services
+ArtifactManager (PluginArtifactManagerTwoSixCpp) Stop External Services
+Waiting for services to tear down...done
+Tore Down Deployment: prism-snowflake-destiniPixelfed-ssEmail
 ```
 
 </details>
@@ -496,24 +1092,23 @@ The `deployment status` command will display varying levels of detail, depending
 5738) rib:development:local:basic@code# deployment status -dd
 Deployment basic apps: all running
 Counts:
-	0/11 are down
-	0/11 are error
-	0/11 are initializing
-	0/11 are ready to bootstrap
-	0/11 are ready to generate config
-	0/11 are ready to install configs
-	0/11 are ready to publish configs
-	0/11 are ready to start
-	0/11 are ready to tar configs
-	11/11 are running
-	0/11 are stopped
-	0/11 are unknown
+	0/10 are down
+	0/10 are error
+	0/10 are initializing
+	0/10 are ready to bootstrap
+	0/10 are ready to generate config
+	0/10 are ready to install configs
+	0/10 are ready to publish configs
+	0/10 are ready to start
+	0/10 are ready to tar configs
+	10/10 are running
+	0/10 are stopped
+	0/10 are unknown
 Details:
 	race-client-00001: running
 	race-client-00002: running
 	race-client-00003: running
 	race-client-00004: running
-	race-client-00005: running
 	race-server-00001: running
 	race-server-00002: running
 	race-server-00003: running
