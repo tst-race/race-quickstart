@@ -47,6 +47,8 @@ The host system will need about 40GB of free storage for the docker images, soft
 
 If using an Android device, the device must be able to successfully connect to your computer (e.g. `adb devices` shows its serial number).
 
+If using an Android device __and a Windows computer__, see [Special Instructions](windows-adb.md) for tips on getting ADB working to connect to an Android device from WSL.
+
 
 ## Environment Setup
 Download and run the Race-in-the-Box (RIB) entrypoint script. This automatically pulls a docker image for orchestrating running local tests of RACE networks. 
