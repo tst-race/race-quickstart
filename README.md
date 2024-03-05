@@ -323,6 +323,8 @@ You can also visualize the paths involved in sending a specific message by runni
 pollmsg.py
 ```
 
+___NOTE:___ it may take a few seconds for the event to percolate through the node and into the elasticsearch database, so you may need to try re-running the `pollmsg.py` command.
+
 <details>
 <summary>Example output</summary>
 
@@ -533,7 +535,6 @@ ___Note:___
 You can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
-sleep 5
 pollmsg.py
 ```
 
@@ -704,7 +705,6 @@ Started All Nodes In Deployment: carma (local)
 You can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
-sleep 5
 pollmsg.py
 ```
 
@@ -974,7 +974,6 @@ ___Be Patient!___ using really-covert indirect channels for client-to-server com
 You can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
-sleep 5
 pollmsg.py
 ```
 
@@ -1243,7 +1242,6 @@ Then browse to `localhost:6080` - if the force diagram shows client nodes with l
 Once connected, you can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
-sleep 5
 pollmsg.py
 ```
 
