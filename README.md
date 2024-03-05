@@ -73,9 +73,7 @@ Running the following commands will pull down prebuilt RACE software, use them t
 <details markdown=1>
 
 <summary markdown="span">
-
 What are Configuration Files?
-
 </summary>
 
 <div markdown=1>
