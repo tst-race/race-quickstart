@@ -70,9 +70,9 @@ The first deployment will be a small deployment with 4 linux clients, 6 linux se
 ### Creating the Deployment
 Running the following commands will pull down prebuilt RACE software, use them to generate initial configuration files, and fetch and run a set of docker containers to run the individual RACE nodes.
 
-<details markdown>
+<details>
 
-<summary markdown>
+<summary>
 What are Configuration Files?
 </summary>
 

@@ -70,6 +70,15 @@ Running the following commands will pull down prebuilt RACE software, use them t
 
 <details>
 
+<summary>
+What are Configuration Files?
+</summary>
+
+RACE uses a notion of an initial (or _genesis_) configuration for the entire network that is expressed as a set of coordinated per-node config files. Examples of data in these per-node configs include cryptographic keys and addresses for initial node-to-node connections. RIB automates the creation of these per-node configs by generating or ingesting a [range-config](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/files-images-templates/example-range-config.json) file which represents the network environment (e.g. RACE nodes, their IPs, etc.) and running a [config generation pipeline](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/deployment-setup/configuration-generation.md). While RIB is intended for orchestrating tests and demonstrations, this aspect of configuration generation could be applicable to assisting construction of real-world RACE deployments.
+
+</details>
+
+
 <summary>What are Configuration Files?</summary>
 RACE uses a notion of an initial (or _genesis_) configuration for the entire network that is expressed as a set of coordinated per-node config files. Examples of data in these per-node configs include cryptographic keys and addresses for initial node-to-node connections. RIB automates the creation of these per-node configs by generating or ingesting a [range-config](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/files-images-templates/example-range-config.json) file which represents the network environment (e.g. RACE nodes, their IPs, etc.) and running a [config generation pipeline](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/deployment-setup/configuration-generation.md). While RIB is intended for orchestrating tests and demonstrations, this aspect of configuration generation could be applicable to assisting construction of real-world RACE deployments.
 
