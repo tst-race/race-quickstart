@@ -82,6 +82,9 @@ RACE uses a notion of an initial (or _genesis_) configuration for the entire net
 
 ___If you are NOT using an Android device, continue from [this page](no-android.md#first-deployment)___
 
+If you encounter any problems, try consulting the [troubleshooting tips](troubleshooting.md) or contact us at <race@twosixtech.com>.
+
+
 ```
 rib deployment local create --name=basic \
     --linux-client-count=4 \
@@ -535,6 +538,7 @@ ___Note:___
 You can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
+sleep 5
 pollmsg.py
 ```
 
@@ -705,6 +709,7 @@ Started All Nodes In Deployment: carma (local)
 You can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
+sleep 5
 pollmsg.py
 ```
 
@@ -974,6 +979,7 @@ ___Be Patient!___ using really-covert indirect channels for client-to-server com
 You can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
+sleep 5
 pollmsg.py
 ```
 
@@ -1242,6 +1248,7 @@ Then browse to `localhost:6080` - if the force diagram shows client nodes with l
 Once connected, you can send messages and view them in-flight just as in the basic deployment:
 ```
 deployment message send-manual --message="Hello to all and from all!"
+sleep 5
 pollmsg.py
 ```
 
