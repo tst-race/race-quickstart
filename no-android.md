@@ -860,7 +860,6 @@ This deployment uses ssEmail which has fairly large machine-learning models as p
 rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --linux-client-count=4 \
     --linux-server-count=6 \
-    --race-node-arch=x86_64 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -886,7 +885,6 @@ deployment start
 8741) rib:development:local:carma-obfs-ssEmail@code# rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
 >     --linux-client-count=4 \
 >     --linux-server-count=6 \
->     --race-node-arch=x86_64 \
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \

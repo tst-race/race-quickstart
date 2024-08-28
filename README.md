@@ -1041,7 +1041,6 @@ This deployment uses ssEmail which has fairly large machine-learning models as p
 rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --linux-client-count=4 \
     --linux-server-count=6 \
-    --race-node-arch=x86_64 \
     --android-client-count=1 \
     --android-client-bridge-count=1 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
@@ -1074,7 +1073,6 @@ deployment start
 4040) rib:development:local:carma-obfs-ssEmail@code# rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
 >     --linux-client-count=4 \
 >     --linux-server-count=6 \
->     --race-node-arch=x86_64 \
 >     --android-client-count=1 \
 >     --android-client-bridge-count=1 \
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
