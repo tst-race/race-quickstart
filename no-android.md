@@ -70,11 +70,15 @@ Running the following commands will pull down prebuilt RACE software, use them t
 
 <details>
 
-<summary>What are Configuration Files?</summary>
+<summary>
+What are Configuration Files?
+</summary>
+
 RACE uses a notion of an initial (or _genesis_) configuration for the entire network that is expressed as a set of coordinated per-node config files. Examples of data in these per-node configs include cryptographic keys and addresses for initial node-to-node connections. RIB automates the creation of these per-node configs by generating or ingesting a [range-config](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/files-images-templates/example-range-config.json) file which represents the network environment (e.g. RACE nodes, their IPs, etc.) and running a [config generation pipeline](https://github.com/tst-race/race-in-the-box/blob/2.6.0/documentation/how-to/deployment-setup/configuration-generation.md). While RIB is intended for orchestrating tests and demonstrations, this aspect of configuration generation could be applicable to assisting construction of real-world RACE deployments.
 
 </details>
 
+If you encounter any problems, try consulting the [troubleshooting tips](troubleshooting.md) or contact us at <race@twosixtech.com>.
 
 ```
 rib deployment local create --name=basic \
@@ -261,6 +265,9 @@ You can also visualize the paths involved in sending a specific message by runni
 ```
 pollmsg.py
 ```
+
+___NOTE:___ it may take a few seconds for the event to percolate through the node and into the elasticsearch database, so you may need to try re-running the `pollmsg.py` command.
+
 
 <details>
 <summary>Example output</summary>
@@ -853,7 +860,6 @@ This deployment uses ssEmail which has fairly large machine-learning models as p
 rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
     --linux-client-count=4 \
     --linux-server-count=6 \
-    --race-node-arch=x86_64 \
     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
@@ -879,7 +885,6 @@ deployment start
 8741) rib:development:local:carma-obfs-ssEmail@code# rib deployment local create --name=prism-snowflake-destiniPixelfed-ssEmail \
 >     --linux-client-count=4 \
 >     --linux-server-count=6 \
->     --race-node-arch=x86_64 \
 >     --linux-client-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --linux-server-image=ghcr.io/tst-race/race-images/race-runtime-linux:main \
 >     --race-core=tag=https://github.com/tst-race/race-core/releases/tag/2.6.0-v1 \
